@@ -2,6 +2,7 @@
 ```
 
 1. Tell Me About Yourself
+
 ```
 "I’m a full-stack web developer who loves turning complex ideas into clean, fast, and easy-to-use web applications. Over the last few years, I’ve built everything from healthcare management portals to media streaming platforms and e-commerce stores.
 
@@ -10,6 +11,7 @@ My daily focus is on modern web tools like Next.js, React, Node.js, PostgreSQL, 
 ```
 
 2. What Is Your Strength?
+
 ```
 "My biggest strength is my problem-solving mindset and ability to pick up new tools fast.
 
@@ -18,6 +20,8 @@ When I run into a tricky bug—whether it’s handling real-time status updates 
 ```
 
 3. What Is Your Weakness?
+
+```
 
 "Sometimes I get too caught up in tweaking small UI details or optimizing code early on, which can slow down my initial speed.
 
@@ -35,7 +39,9 @@ I don't just write code off a spec sheet; I think about the end user and how the
 ```
 
 5. Why Did You Choose Web Development as a Career?
+```
 
 "Honestly, it comes down to instant feedback and impact.
 
 With web development, you write a few lines of code, refresh the browser, and suddenly there’s a real interactive tool on your screen that anyone in the world can use. That feeling never gets old for me. I love that the web is constantly evolving—there’s always a new framework to try, a faster way to query a database, or a better way to design an interface. It keeps work interesting every single day."
+```
