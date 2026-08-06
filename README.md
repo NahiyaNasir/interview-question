@@ -45,3 +45,31 @@ I don't just write code off a spec sheet; I think about the end user and how the
 
 With web development, you write a few lines of code, refresh the browser, and suddenly there’s a real interactive tool on your screen that anyone in the world can use. That feeling never gets old for me. I love that the web is constantly evolving—there’s always a new framework to try, a faster way to query a database, or a better way to design an interface. It keeps work interesting every single day."
 ```
+
+6.. What is the difference between var, let, and const in JavaScript?
+```
+var a = 1;
+var a = 2; // Valid
+
+let b = 1;
+// let b = 2; // SyntaxError: Identifier 'b' has already been declared
+b = 2; // Valid
+
+const c = 10;
+// c = 20; // Type Error: Assignment to constant variable.
+```
+
+7.Explain the concept of hoisting in JavaScript.
+
+```
+Hoisting is JavaScript's default behavior of moving function and variable declarations to the top of their containing scope during the compilation phase, before execution.
+
+Functions: Full function declarations are hoisted completely, meaning they can be called before they appear in the code.
+
+var: Declarations are hoisted and initialized to undefined.
+
+let and const: Declarations are hoisted, but remain uninitialized in the Temporal Dead Zone (TDZ) until execution reaches their declaration line.
+
+```
+
+
