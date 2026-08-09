@@ -241,3 +241,39 @@ The event loop keeps checking for tasks that are waiting to run.
 
 
 
+### Q22
+
+```markdown
+## Q22. Explain how Promises work in JavaScript.
+
+A Promise is used to handle an operation that will finish in the future.
+
+A Promise has three main states:
+
+- Pending
+- Fulfilled
+- Rejected
+
+Example:
+
+```js
+const promise = new Promise((resolve, reject) => {
+  const success = true;
+
+  if (success) {
+    resolve("Operation successful");
+  } else {
+    reject("Something went wrong");
+  }
+});
+
+promise
+  .then(result => {
+    console.log(result);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+
+
+
