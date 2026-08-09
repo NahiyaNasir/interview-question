@@ -275,5 +275,249 @@ promise
     console.log(error);
   });
 
+### Q23
+
+```markdown
+## Q23. What is async/await and how does it improve upon Promises?
+
+`async/await` is a simpler way to work with Promises.
+
+An `async` function always returns a Promise.
+
+`await` waits for a Promise to finish before moving to the next line.
+
+Example:
+
+```js
+async function getData() {
+  try {
+    const response = await fetch("https://example.com/data");
+    const data = await response.json();
+
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+``Without async/await, we normally use .then() and .catch().
+
+``async/await makes asynchronous code look more like normal step-by-step code, so it is easier to read and understan
 
 
+
+### Q24
+
+```markdown
+## Q24. What is the difference between call(), apply(), and bind()?
+
+`call()`, `apply()`, and `bind()` are used to control the value of `this` inside a function.
+
+### call()
+
+`call()` runs the function immediately and takes arguments separately.
+
+```js
+function greet(city) {
+  console.log(`Hello ${this.name} from ${city}`);
+}
+
+const user = {
+  name: "John"
+};
+
+greet.call(user, "Dhaka");
+
+// Hello John from Dhaka
+
+greet.apply(user, ["Dhaka"]);
+
+// Hello John from Dhaka
+
+const newGreet = greet.bind(user);
+
+newGreet("Dhaka");
+
+// Hello John from DhakaIn simple words:
+
+call() → runs now, arguments separately
+apply() → runs now, arguments in an array
+bind() → returns a new function
+
+
+### Q25
+
+```markdown
+## Q25. What is prototypal inheritance in JavaScript?
+
+Prototypal inheritance means that an object can use properties and methods from another object through its prototype.
+
+Example:
+
+```js
+const person = {
+  greet() {
+    console.log("Hello");
+  }
+};
+
+const student = Object.create(person);
+
+student.greet();
+
+// Hello
+Here, student does not have its own greet() method.
+
+It gets the greet() method from person through the prototype.
+
+JavaScript uses prototypes to share properties and methods between objects.
+
+
+### Q26
+
+```markdown
+## Q26. Explain the concept of this keyword in different contexts.
+
+The `this` keyword refers to the object connected to the function when the function is called.
+
+### Inside an Object Method
+
+```js
+const user = {
+  name: "John",
+
+  greet() {
+    console.log(this.name);
+  }
+};
+
+user.greet();
+
+// John
+
+function show() {
+  console.log(this);
+}
+### Q27
+
+```markdown
+## Q27. What are JavaScript modules (import/export)?
+
+Modules allow us to split JavaScript code into different files.
+
+We can export something from one file and import it into another file.
+
+### Export Example
+
+```js
+// math.js
+
+export function add(a, b) {
+  return a + b;
+}
+
+### Q28
+
+```markdown
+## Q28. What is the difference between shallow copy and deep copy of objects?
+
+A shallow copy copies only the first level of an object.
+
+If the object contains another object, the nested object is still shared.
+
+Example:
+
+```js
+const user = {
+  name: "John",
+  address: {
+    city: "Dhaka"
+  }
+};
+
+const copy = { ...user };
+
+copy.address.city = "Chittagong";
+
+console.log(user.address.city);
+
+// Chittagong
+
+
+### Q29
+
+```markdown
+## Q29. What are WeakMap and WeakSet and when would you use them?
+
+`WeakMap` and `WeakSet` are similar to `Map` and `Set`, but they hold objects weakly.
+
+### WeakMap
+
+A `WeakMap` stores key-value pairs where the keys must be objects.
+
+```js
+const weakMap = new WeakMap();
+
+const user = {};
+
+weakMap.set(user, "User data");
+
+console.log(weakMap.get(user));
+
+// User data
+
+WeakSet
+
+A WeakSet stores objects.
+
+const weakSet = new WeakSet();
+
+const user = {};
+
+weakSet.add(user);
+
+console.log(weakSet.has(user));
+
+// true
+
+
+### Q30
+
+```markdown
+## Q30. Explain the concept of memoization with an example.
+
+Memoization is a technique used to make a function faster by saving its previous results.
+
+If the same input is given again, the function can use the saved result instead of calculating it again.
+
+Example:
+
+```js
+function memoize(fn) {
+  const cache = {};
+
+  return function (num) {
+    if (cache[num]) {
+      return cache[num];
+    }
+
+    const result = fn(num);
+    cache[num] = result;
+
+    return result;
+  };
+}
+
+function square(num) {
+  console.log("Calculating...");
+  return num * num;
+}
+
+const memoizedSquare = memoize(square);
+
+console.log(memoizedSquare(5));
+// Calculating...
+// 25
+
+console.log(memoizedSquare(5));
+// 25
