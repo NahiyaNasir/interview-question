@@ -71,5 +71,173 @@ var: Declarations are hoisted and initialized to undefined.
 let and const: Declarations are hoisted, but remain uninitialized in the Temporal Dead Zone (TDZ) until execution reaches their declaration line.
 
 ```
+## Q16. What is destructuring in JavaScript? Explain with array and object examples.
+
+Destructuring is a way to take values from an array or properties from an object and store them in separate variables.
+
+### Array example:
+```js
+const numbers = [10, 20, 30];
+
+const [a, b, c] = numbers;
+
+console.log(a); // 10
+console.log(b); // 20
+console.log(c); // 30
+
+## Q17. What are the spread and rest operators and how are they used?
+
+The spread and rest operators both use `...`, but they are used for different purposes.
+
+### Spread Operator
+
+The spread operator is used to expand the values of an array or object.
+
+```js
+const numbers = [1, 2, 3];
+
+const newNumbers = [...numbers, 4, 5];
+
+console.log(newNumbers);
+// [1, 2, 3, 4, 5]
+###  Rest Operator
+
+The rest operator is used to collect multiple values into one array.
+```js
+function addNumbers(...numbers) {
+  return numbers.reduce((sum, num) => sum + num, 0);
+}
+
+console.log(addNumbers(10, 20, 30));
+// 60
+
+
+### Q18
+
+```markdown
+## Q18. Explain the difference between map(), filter(), and reduce().
+
+These are common methods used with arrays.
+
+### map()
+
+`map()` is used to change every item in an array and returns a new array.
+
+```js
+const numbers = [1, 2, 3];
+
+const result = numbers.map(num => num * 2);
+
+console.log(result);
+// [2, 4, 6]
+### filtter()
+
+`filter() ` is used to get only the items that match a condition.
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+const result = numbers.filter(num => num > 2);
+
+console.log(result);
+// [3, 4, 5]
+
+###reduce()
+
+reduce() is used to calculate one final value from an array.
+const numbers = [1, 2, 3, 4];
+
+const total = numbers.reduce((sum, num) => sum + num, 0);
+
+console.log(total);
+// 10
+
+### Q19
+
+```markdown
+## Q19. What is the difference between for...in and for...of loops?
+
+`for...in` is mainly used to loop through the keys or property names of an object.
+
+```js
+const user = {
+  name: "John",
+  age: 25
+};
+
+for (let key in user) {
+  console.log(key);
+}
+
+// name
+// age
+// age
+
+`for...of `is used to loop through the values of an array or other iterable objects.
+```js
+const numbers = [10, 20, 30];
+
+for (let number of numbers) {
+  console.log(number);
+}
+
+// 10
+// 20
+// 30
+
+### Q20
+
+```markdown
+## Q20. What are template literals and tagged templates?
+
+Template literals are a way to create strings using backticks.
+
+They make it easy to add variables inside a string.
+
+```js
+const name = "John";
+const age = 25;
+
+const message = `My name is ${name} and I am ${age} years old.`;
+
+console.log(message);
+// My name is John and I am 25 years old.
+Tagged templates allow a function to process a template literal.
+```js
+function greet(strings, name) {
+  return `${strings[0]}${name}`;
+}
+
+const name = "John";
+
+console.log(greet`Hello ${name}`);
+// Hello John
+
+
+### Q21
+
+```markdown
+## Q21. What is the event loop in JavaScript?
+
+JavaScript is single-threaded, which means it normally runs one task at a time.
+
+The event loop helps JavaScript handle things like timers, promises, and user events without blocking the main code.
+
+Example:
+
+```js
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timer");
+}, 0);
+
+console.log("End");
+The timer does not run immediately. JavaScript first finishes the current code and then runs the timer callback.
+
+The event loop keeps checking for tasks that are waiting to run.
+
+
+
 
 
