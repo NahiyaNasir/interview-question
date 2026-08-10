@@ -1,82 +1,398 @@
-# interview-question
-```
+
+JavaScript & Web Developer Interview Questions
+
+A clean, GitHub-ready collection of full-stack web development and JavaScript interview questions and answers.
+
+Use this README as a quick revision guide before technical interviews.
+
+📚 Table of Contents
+
+Behavioral Interview Questions
+
+JavaScript Interview Questions
+
+Variables & Hoisting
+
+Core JavaScript
+
+Functions & Scope
+
+Modern JavaScript
+
+Asynchronous JavaScript
+
+Objects & Advanced Concepts
+
+💬 Behavioral Interview Questions
 
 1. Tell Me About Yourself
 
-```
-"I’m a full-stack web developer who loves turning complex ideas into clean, fast, and easy-to-use web applications. Over the last few years, I’ve built everything from healthcare management portals to media streaming platforms and e-commerce stores.
+I’m a full-stack web developer who loves turning complex ideas into clean, fast, and easy-to-use web applications. Over the last few years, I’ve built everything from healthcare management portals to media streaming platforms and e-commerce stores.
 
-My daily focus is on modern web tools like Next.js, React, Node.js, PostgreSQL, and Tailwind CSS. Beyond just writing code that works, I care a lot about smooth UI, fast performance, and clean database architecture. I really enjoy taking a project from an initial feature idea all the way to a live, working product."
-
-```
+My daily focus is on modern web tools like Next.js, React, Node.js, PostgreSQL, and Tailwind CSS. Beyond just writing code that works, I care a lot about smooth UI, fast performance, and clean database architecture. I really enjoy taking a project from an initial feature idea all the way to a live, working product.
 
 2. What Is Your Strength?
 
-```
-"My biggest strength is my problem-solving mindset and ability to pick up new tools fast.
+My biggest strength is my problem-solving mindset and ability to pick up new tools fast.
 
-When I run into a tricky bug—whether it’s handling real-time status updates in a database, setting up complex cron jobs, or debugging a tricky third-party API integration—I don't get frustrated. I systematically trace the problem, break it down, and fix it. I’m also super reliable when it comes to ownership; if a task is handed to me, I make sure it gets done right and on time."
-
-```
+When I run into a tricky bug—whether it’s handling real-time status updates in a database, setting up complex cron jobs, or debugging a tricky third-party API integration—I don't get frustrated. I systematically trace the problem, break it down, and fix it. I’m also super reliable when it comes to ownership; if a task is handed to me, I make sure it gets done right and on time.
 
 3. What Is Your Weakness?
 
-```
+Sometimes I get too caught up in tweaking small UI details or optimizing code early on, which can slow down my initial speed.
 
-"Sometimes I get too caught up in tweaking small UI details or optimizing code early on, which can slow down my initial speed.
-
-For example, I’ll find myself spending extra time perfecting an animation or re-factoring a component when the core feature just needs to be shipped first. To fix this, I’ve started setting strict timer targets: get the functional MVP out first, get feedback, and then go back to polish the UI and performance."
-
-```
+For example, I’ll find myself spending extra time perfecting an animation or re-factoring a component when the core feature just needs to be shipped first. To fix this, I’ve started setting strict timer targets: get the functional MVP out first, get feedback, and then go back to polish the UI and performance.
 
 4. Why Should We Hire You?
 
- ```
-"Because I bring a solid balance of technical skills, speed, and real product experience.
+Because I bring a solid balance of technical skills, speed, and real product experience.
 
-I don't just write code off a spec sheet; I think about the end user and how the app will handle real-world edge cases. Whether it’s setting up secure payment processing, managing complex database schemas, or crafting responsive interfaces with Tailwind and Framer Motion, I know how to deliver complete features without needing constant hand-holding. I’m ready to step in, collaborate with your team, and ship clean code from day one."
-
-```
+I don't just write code off a spec sheet; I think about the end user and how the app will handle real-world edge cases. Whether it’s setting up secure payment processing, managing complex database schemas, or crafting responsive interfaces with Tailwind and Framer Motion, I know how to deliver complete features without needing constant hand-holding. I’m ready to step in, collaborate with your team, and ship clean code from day one.
 
 5. Why Did You Choose Web Development as a Career?
-```
 
-"Honestly, it comes down to instant feedback and impact.
+Honestly, it comes down to instant feedback and impact.
 
-With web development, you write a few lines of code, refresh the browser, and suddenly there’s a real interactive tool on your screen that anyone in the world can use. That feeling never gets old for me. I love that the web is constantly evolving—there’s always a new framework to try, a faster way to query a database, or a better way to design an interface. It keeps work interesting every single day."
-```
+With web development, you write a few lines of code, refresh the browser, and suddenly there’s a real interactive tool on your screen that anyone in the world can use. That feeling never gets old for me. I love that the web is constantly evolving—there’s always a new framework to try, a faster way to query a database, or a better way to design an interface. It keeps work interesting every single day.
 
-6.. What is the difference between var, let, and const in JavaScript?
-```
-var a = 1;
-var a = 2; // Valid
+🟨 JavaScript Interview Questions
 
-let b = 1;
-// let b = 2; // SyntaxError: Identifier 'b' has already been declared
-b = 2; // Valid
+Variables & Hoisting
 
-const c = 10;
-// c = 20; // Type Error: Assignment to constant variable.
-```
+1. What Is the Difference Between var, let, and const?
 
-7.Explain the concept of hoisting in JavaScript.
+var, let, and const are used to create variables in JavaScript.
 
-```
-Hoisting is JavaScript's default behavior of moving function and variable declarations to the top of their containing scope during the compilation phase, before execution.
+var
 
-Functions: Full function declarations are hoisted completely, meaning they can be called before they appear in the code.
+var is the older way to declare variables. It is function-scoped and can be redeclared.
 
-var: Declarations are hoisted and initialized to undefined.
+var name = "John";
 
-let and const: Declarations are hoisted, but remain uninitialized in the Temporal Dead Zone (TDZ) until execution reaches their declaration line.
+var name = "Mike";
 
-```
-## Q16. What is destructuring in JavaScript? Explain with array and object examples.
+console.log(name);
+// Mike
+
+let
+
+let is block-scoped and can be changed, but it cannot be redeclared in the same scope.
+
+let age = 20;
+
+age = 25;
+
+console.log(age);
+// 25
+
+const
+
+const is also block-scoped, but its value cannot be reassigned.
+
+const country = "Bangladesh";
+
+country = "India"; // Error
+
+In simple words:
+
+var → old way, can be redeclared
+
+let → value can be changed
+
+const → value cannot be reassigned
+
+2. Explain the Concept of Hoisting in JavaScript
+
+Hoisting means JavaScript processes declarations before running the code.
+
+For example, a function declaration can be called before it is written.
+
+greet();
+
+function greet() {
+  console.log("Hello");
+}
+
+// Hello
+
+Variables declared with var are also hoisted, but their value is initially undefined.
+
+console.log(name);
+
+var name = "John";
+
+// undefined
+
+let and const are also hoisted, but they cannot be used before their declaration because of the Temporal Dead Zone (TDZ).
+
+console.log(age); // Error
+
+let age = 20;
+
+Core JavaScript
+
+3. What Are the Primitive Data Types in JavaScript?
+
+Primitive data types are the basic types of values in JavaScript.
+
+There are 7 primitive data types:
+
+String
+
+Number
+
+BigInt
+
+Boolean
+
+Undefined
+
+Null
+
+Symbol
+
+Example
+
+let name = "John";        // String
+let age = 25;             // Number
+let bigNumber = 123n;     // BigInt
+let isStudent = true;     // Boolean
+let address;              // Undefined
+let data = null;          // Null
+let id = Symbol("id");    // Symbol
+
+Primitive values are not objects and are treated as individual values.
+
+4. What Is the Difference Between == and ===?
+
+== and === are used to compare values, but they work differently.
+
+==
+
+== compares values after doing type conversion if needed.
+
+console.log(5 == "5");
+
+// true
+
+Here, JavaScript converts the string "5" into a number before comparing.
+
+===
+
+=== compares both the value and the data type.
+
+console.log(5 === "5");
+
+// false
+
+Here, one value is a number and the other is a string.
+
+In most cases, === is preferred because it gives more predictable results.
+
+In simple words:
+
+== → compares after type conversion
+
+=== → compares value and type
+
+Functions & Scope
+
+5. Explain How Closures Work in JavaScript
+
+A closure happens when a function remembers variables from the place where it was created, even after that outer function has finished running.
+
+Example
+
+function counter() {
+  let count = 0;
+
+  return function () {
+    count++;
+    return count;
+  };
+}
+
+const increase = counter();
+
+console.log(increase());
+// 1
+
+console.log(increase());
+// 2
+
+console.log(increase());
+// 3
+
+6. What Is the Difference Between null and undefined?
+
+undefined usually means a variable has been declared but no value has been given to it.
+
+let name;
+
+console.log(name);
+
+// undefined
+
+In simple words:
+
+undefined → value has not been assigned
+
+null → intentionally empty value
+
+7. What Are Arrow Functions and How Do They Differ from Regular Functions?
+
+Arrow functions are a shorter way to write functions.
+
+Regular Function
+
+function add(a, b) {
+  return a + b;
+}
+
+Arrow Function
+
+const add = (a, b) => {
+  return a + b;
+};
+
+8. What Is the Scope Chain in JavaScript?
+
+The scope chain is the way JavaScript looks for a variable.
+
+When JavaScript cannot find a variable in the current scope, it looks in the outer scope. It keeps going until it finds the variable or reaches the global scope.
+
+Example
+
+let name = "John";
+
+function greet() {
+  function sayHello() {
+    console.log(name);
+  }
+
+  sayHello();
+}
+
+greet();
+
+// John
+
+9. Explain the Concept of the Temporal Dead Zone
+
+The Temporal Dead Zone, or TDZ, is the time between entering a scope and declaring a let or const variable.
+
+During this time, the variable cannot be used.
+
+Example
+
+console.log(age);
+
+let age = 25;
+
+10. What Is a Pure Function?
+
+A pure function is a function that always gives the same output for the same input.
+
+It also does not change anything outside the function.
+
+Example
+
+function add(a, b) {
+  return a + b;
+}
+
+console.log(add(2, 3));
+// 5
+
+console.log(add(2, 3));
+// 5
+
+11. What Is the Difference Between Function Declaration and Function Expression?
+
+A function declaration is created using the function keyword with a function name.
+
+function greet() {
+  console.log("Hello");
+}
+
+greet();
+
+A function expression assigns a function to a variable.
+
+const greet = function () {
+  console.log("Hello");
+};
+
+12. What Are Default Parameters in JavaScript?
+
+Default parameters allow us to give a default value to a function parameter.
+
+If the caller does not provide a value, the default value is used.
+
+Example
+
+function greet(name = "Guest") {
+  console.log(`Hello ${name}`);
+}
+
+greet("John");
+// Hello John
+
+greet();
+// Hello Guest
+
+13. What Is the typeof Operator?
+
+The typeof operator is used to check the type of a value.
+
+Example
+
+console.log(typeof "Hello");
+// string
+
+console.log(typeof 25);
+// number
+
+console.log(typeof true);
+// boolean
+
+console.log(typeof undefined);
+// undefined
+
+console.log(typeof {});
+// object
+
+console.log(typeof function () {});
+// function
+
+14. Explain Type Coercion in JavaScript
+
+Type coercion means JavaScript automatically converts one data type into another when needed.
+
+Example
+
+console.log("5" + 2);
+
+// "52"
+
+Modern JavaScript
+
+15. What Is an Immediately Invoked Function Expression (IIFE)?
+
+An IIFE is a function that runs immediately after it is created.
+
+Example
+
+(function () {
+  console.log("Hello");
+})();
+
+16. What Is Destructuring in JavaScript?
 
 Destructuring is a way to take values from an array or properties from an object and store them in separate variables.
 
-### Array example:
-```js
+Array Example
+
 const numbers = [10, 20, 30];
 
 const [a, b, c] = numbers;
@@ -85,25 +401,25 @@ console.log(a); // 10
 console.log(b); // 20
 console.log(c); // 30
 
-## Q17. What are the spread and rest operators and how are they used?
+17. What Are the Spread and Rest Operators?
 
-The spread and rest operators both use `...`, but they are used for different purposes.
+The spread and rest operators both use ..., but they are used for different purposes.
 
-### Spread Operator
+Spread Operator
 
 The spread operator is used to expand the values of an array or object.
 
-```js
 const numbers = [1, 2, 3];
 
 const newNumbers = [...numbers, 4, 5];
 
 console.log(newNumbers);
 // [1, 2, 3, 4, 5]
-###  Rest Operator
+
+Rest Operator
 
 The rest operator is used to collect multiple values into one array.
-```js
+
 function addNumbers(...numbers) {
   return numbers.reduce((sum, num) => sum + num, 0);
 }
@@ -111,30 +427,25 @@ function addNumbers(...numbers) {
 console.log(addNumbers(10, 20, 30));
 // 60
 
-
-### Q18
-
-```markdown
-## Q18. Explain the difference between map(), filter(), and reduce().
+18. Explain the Difference Between map(), filter(), and reduce()
 
 These are common methods used with arrays.
 
-### map()
+map()
 
-`map()` is used to change every item in an array and returns a new array.
+map() is used to change every item in an array and returns a new array.
 
-```js
 const numbers = [1, 2, 3];
 
 const result = numbers.map(num => num * 2);
 
 console.log(result);
 // [2, 4, 6]
-### filtter()
 
-`filter() ` is used to get only the items that match a condition.
+filter()
 
-```js
+filter() is used to get only the items that match a condition.
+
 const numbers = [1, 2, 3, 4, 5];
 
 const result = numbers.filter(num => num > 2);
@@ -142,9 +453,10 @@ const result = numbers.filter(num => num > 2);
 console.log(result);
 // [3, 4, 5]
 
-###reduce()
+reduce()
 
 reduce() is used to calculate one final value from an array.
+
 const numbers = [1, 2, 3, 4];
 
 const total = numbers.reduce((sum, num) => sum + num, 0);
@@ -152,14 +464,10 @@ const total = numbers.reduce((sum, num) => sum + num, 0);
 console.log(total);
 // 10
 
-### Q19
+19. What Is the Difference Between for...in and for...of?
 
-```markdown
-## Q19. What is the difference between for...in and for...of loops?
+for...in is mainly used to loop through the keys or property names of an object.
 
-`for...in` is mainly used to loop through the keys or property names of an object.
-
-```js
 const user = {
   name: "John",
   age: 25
@@ -171,10 +479,9 @@ for (let key in user) {
 
 // name
 // age
-// age
 
-`for...of `is used to loop through the values of an array or other iterable objects.
-```js
+for...of is used to loop through the values of an array or other iterable objects.
+
 const numbers = [10, 20, 30];
 
 for (let number of numbers) {
@@ -185,16 +492,12 @@ for (let number of numbers) {
 // 20
 // 30
 
-### Q20
-
-```markdown
-## Q20. What are template literals and tagged templates?
+20. What Are Template Literals and Tagged Templates?
 
 Template literals are a way to create strings using backticks.
 
 They make it easy to add variables inside a string.
 
-```js
 const name = "John";
 const age = 25;
 
@@ -202,8 +505,9 @@ const message = `My name is ${name} and I am ${age} years old.`;
 
 console.log(message);
 // My name is John and I am 25 years old.
+
 Tagged templates allow a function to process a template literal.
-```js
+
 function greet(strings, name) {
   return `${strings[0]}${name}`;
 }
@@ -213,19 +517,16 @@ const name = "John";
 console.log(greet`Hello ${name}`);
 // Hello John
 
+Asynchronous JavaScript
 
-### Q21
-
-```markdown
-## Q21. What is the event loop in JavaScript?
+21. What Is the Event Loop in JavaScript?
 
 JavaScript is single-threaded, which means it normally runs one task at a time.
 
 The event loop helps JavaScript handle things like timers, promises, and user events without blocking the main code.
 
-Example:
+Example
 
-```js
 console.log("Start");
 
 setTimeout(() => {
@@ -233,30 +534,25 @@ setTimeout(() => {
 }, 0);
 
 console.log("End");
+
 The timer does not run immediately. JavaScript first finishes the current code and then runs the timer callback.
 
 The event loop keeps checking for tasks that are waiting to run.
 
-
-
-
-
-### Q22
-
-```markdown
-## Q22. Explain how Promises work in JavaScript.
+22. Explain How Promises Work in JavaScript
 
 A Promise is used to handle an operation that will finish in the future.
 
 A Promise has three main states:
 
-- Pending
-- Fulfilled
-- Rejected
+Pending
 
-Example:
+Fulfilled
 
-```js
+Rejected
+
+Example
+
 const promise = new Promise((resolve, reject) => {
   const success = true;
 
@@ -275,20 +571,16 @@ promise
     console.log(error);
   });
 
-### Q23
+23. What Is async/await and How Does It Improve Upon Promises?
 
-```markdown
-## Q23. What is async/await and how does it improve upon Promises?
+async/await is a simpler way to work with Promises.
 
-`async/await` is a simpler way to work with Promises.
+An async function always returns a Promise.
 
-An `async` function always returns a Promise.
+await waits for a Promise to finish before moving to the next line.
 
-`await` waits for a Promise to finish before moving to the next line.
+Example
 
-Example:
-
-```js
 async function getData() {
   try {
     const response = await fetch("https://example.com/data");
@@ -300,24 +592,28 @@ async function getData() {
   }
 }
 
-``Without async/await, we normally use .then() and .catch().
+Without async/await, we normally use .then() and .catch().
 
-``async/await makes asynchronous code look more like normal step-by-step code, so it is easier to read and understan
+async/await makes asynchronous code look more like normal step-by-step code, so it is easier to read and understand.
 
+Objects & Advanced Concepts
 
+24. What Is the Difference Between call(), apply(), and bind()?
 
-### Q24
+call(), apply(), and bind() are used to control the value of this inside a function.
 
-```markdown
-## Q24. What is the difference between call(), apply(), and bind()?
+call()
 
-`call()`, `apply()`, and `bind()` are used to control the value of `this` inside a function.
+call() runs the function immediately and takes arguments separately.
 
-### call()
+apply()
 
-`call()` runs the function immediately and takes arguments separately.
+apply() runs the function immediately and takes arguments in an array.
 
-```js
+bind()
+
+bind() returns a new function.
+
 function greet(city) {
   console.log(`Hello ${this.name} from ${city}`);
 }
@@ -338,23 +634,22 @@ const newGreet = greet.bind(user);
 
 newGreet("Dhaka");
 
-// Hello John from DhakaIn simple words:
+// Hello John from Dhaka
+
+In simple words:
 
 call() → runs now, arguments separately
+
 apply() → runs now, arguments in an array
+
 bind() → returns a new function
 
-
-### Q25
-
-```markdown
-## Q25. What is prototypal inheritance in JavaScript?
+25. What Is Prototypal Inheritance in JavaScript?
 
 Prototypal inheritance means that an object can use properties and methods from another object through its prototype.
 
-Example:
+Example
 
-```js
 const person = {
   greet() {
     console.log("Hello");
@@ -366,23 +661,19 @@ const student = Object.create(person);
 student.greet();
 
 // Hello
+
 Here, student does not have its own greet() method.
 
 It gets the greet() method from person through the prototype.
 
 JavaScript uses prototypes to share properties and methods between objects.
 
+26. Explain the Concept of the this Keyword
 
-### Q26
+The this keyword refers to the object connected to the function when the function is called.
 
-```markdown
-## Q26. Explain the concept of this keyword in different contexts.
+Inside an Object Method
 
-The `this` keyword refers to the object connected to the function when the function is called.
-
-### Inside an Object Method
-
-```js
 const user = {
   name: "John",
 
@@ -398,36 +689,37 @@ user.greet();
 function show() {
   console.log(this);
 }
-### Q27
 
-```markdown
-## Q27. What are JavaScript modules (import/export)?
+27. What Are JavaScript Modules (import / export)?
 
 Modules allow us to split JavaScript code into different files.
 
 We can export something from one file and import it into another file.
 
-### Export Example
+Export Example
 
-```js
 // math.js
 
 export function add(a, b) {
   return a + b;
 }
 
-### Q28
+Import Example
 
-```markdown
-## Q28. What is the difference between shallow copy and deep copy of objects?
+// app.js
+
+import { add } from "./math.js";
+
+console.log(add(2, 3));
+
+28. What Is the Difference Between Shallow Copy and Deep Copy?
 
 A shallow copy copies only the first level of an object.
 
 If the object contains another object, the nested object is still shared.
 
-Example:
+Example
 
-```js
 const user = {
   name: "John",
   address: {
@@ -443,19 +735,14 @@ console.log(user.address.city);
 
 // Chittagong
 
+29. What Are WeakMap and WeakSet?
 
-### Q29
+WeakMap and WeakSet are similar to Map and Set, but they hold objects weakly.
 
-```markdown
-## Q29. What are WeakMap and WeakSet and when would you use them?
+WeakMap
 
-`WeakMap` and `WeakSet` are similar to `Map` and `Set`, but they hold objects weakly.
+A WeakMap stores key-value pairs where the keys must be objects.
 
-### WeakMap
-
-A `WeakMap` stores key-value pairs where the keys must be objects.
-
-```js
 const weakMap = new WeakMap();
 
 const user = {};
@@ -480,19 +767,14 @@ console.log(weakSet.has(user));
 
 // true
 
-
-### Q30
-
-```markdown
-## Q30. Explain the concept of memoization with an example.
+30. Explain the Concept of Memoization
 
 Memoization is a technique used to make a function faster by saving its previous results.
 
 If the same input is given again, the function can use the saved result instead of calculating it again.
 
-Example:
+Example
 
-```js
 function memoize(fn) {
   const cache = {};
 
@@ -521,3 +803,70 @@ console.log(memoizedSquare(5));
 
 console.log(memoizedSquare(5));
 // 25
+
+⭐ Quick Revision Checklist
+
+Before an interview, make sure you can explain these without reading the answers:
+
+var, let, const
+
+Hoisting and TDZ
+
+Primitive data types
+
+== vs ===
+
+Closures
+
+null vs undefined
+
+Arrow functions
+
+Scope chain
+
+Pure functions
+
+Function declarations vs expressions
+
+Default parameters
+
+typeof
+
+Type coercion
+
+IIFE
+
+Destructuring
+
+Spread and rest
+
+map(), filter(), reduce()
+
+for...in vs for...of
+
+Template literals
+
+Event loop
+
+Promises
+
+async/await
+
+call(), apply(), bind()
+
+Prototypal inheritance
+
+this
+
+Modules
+
+Shallow vs deep copy
+
+WeakMap and WeakSet
+
+Memoization
+
+📌 About
+
+This README is organized as a personal interview-preparation guide for JavaScript and full-stack web development.
+
