@@ -866,6 +866,348 @@ WeakMap and WeakSet
 
 Memoization
 
+   REACT QUES
+# Components, Hooks & State Management
+
+## Q31. What is React and what problem does it solve?
+
+React is a JavaScript library used to build user interfaces, especially for web applications.
+
+It helps developers build websites using small reusable parts called components. React also updates only the parts of the page that need to change, which makes applications faster and easier to manage.
+
+---
+
+## Q32. What is JSX and why is it used in React?
+
+JSX stands for JavaScript XML. It lets us write HTML-like code inside JavaScript.
+
+JSX makes React code easier to read and write because we can create the UI and its logic in the same place.
+
+Example:
+
+```jsx
+const element = <h1>Hello World</h1>;
+```
+
+JSX is not directly understood by the browser. It is converted into normal JavaScript before running.
+
+---
+
+## Q33. What is the difference between functional and class components?
+
+Functional components are normal JavaScript functions that return JSX.
+
+Class components are JavaScript classes that extend `React.Component`.
+
+Functional components are more commonly used today because they are simpler and support Hooks like `useState` and `useEffect`.
+
+Example of a functional component:
+
+```jsx
+function Welcome() {
+  return <h1>Hello</h1>;
+}
+```
+
+---
+
+## Q34. What is the virtual DOM and how does React use it?
+
+The Virtual DOM is a lightweight copy of the real DOM.
+
+When the state of a React application changes, React first updates the Virtual DOM. It then compares the new Virtual DOM with the previous one and updates only the necessary parts of the real DOM.
+
+This helps React update the UI efficiently.
+
+---
+
+## Q35. Explain the useState hook with an example.
+
+`useState` is a React Hook used to store and update data inside a functional component.
+
+Example:
+
+```jsx
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>
+        Increase
+      </button>
+    </div>
+  );
+}
+```
+
+Here, `count` stores the current value and `setCount` is used to change it.
+
+---
+
+## Q36. What is the useEffect hook and what are its use cases?
+
+`useEffect` is used to run code after a component renders.
+
+It is commonly used for things like:
+
+* Fetching data from an API
+* Adding event listeners
+* Working with timers
+* Updating something outside React
+* Running code when a value changes
+
+Example:
+
+```jsx
+import { useEffect } from "react";
+
+useEffect(() => {
+  console.log("Component rendered");
+}, []);
+```
+
+The empty array means the effect runs once when the component is mounted.
+
+---
+
+## Q37. What is the difference between controlled and uncontrolled components?
+
+A **controlled component** is a form element whose value is controlled by React state.
+
+Example:
+
+```jsx
+const [name, setName] = useState("");
+
+<input
+  value={name}
+  onChange={(e) => setName(e.target.value)}
+/>
+```
+
+An **uncontrolled component** stores its value in the DOM instead of React state. We can use `useRef` to get its value.
+
+Controlled components are usually preferred when we need to control or validate form data.
+
+---
+
+## Q38. What are props in React and how are they passed?
+
+Props are values passed from a parent component to a child component.
+
+They are used to send data or functions to another component.
+
+Example:
+
+```jsx
+function Welcome({ name }) {
+  return <h1>Hello {name}</h1>;
+}
+
+function App() {
+  return <Welcome name="John" />;
+}
+```
+
+Here, `"John"` is passed as a prop to the `Welcome` component.
+
+Props are read-only, so a child component should not directly change them.
+
+---
+
+## Q39. What is prop drilling and how can it be avoided?
+
+Prop drilling happens when we pass props through several components just to send data to a component deep in the component tree.
+
+For example:
+
+```text
+App
+ ↓
+Component A
+ ↓
+Component B
+ ↓
+Component C
+```
+
+If Component C needs some data from App, we may have to pass that data through A and B even though they don't need it.
+
+Prop drilling can be avoided by using:
+
+* Context API
+* State management libraries
+* Better component structure
+
+For simple shared data, the Context API is often a good choice.
+
+---
+
+## Q40. Explain the useContext hook with an example.
+
+`useContext` is used to access data from a React Context without passing props through every component.
+
+Example:
+
+```jsx
+import { createContext, useContext } from "react";
+
+const UserContext = createContext();
+
+function App() {
+  return (
+    <UserContext.Provider value="John">
+      <Profile />
+    </UserContext.Provider>
+  );
+}
+
+function Profile() {
+  const user = useContext(UserContext);
+
+  return <h1>Hello {user}</h1>;
+}
+```
+
+Here, `Profile` can directly access the user value from `UserContext`.
+
+It is useful for sharing things like user information, themes, or language settings.
+
+---
+
+## Q41. What is the useRef hook and when would you use it?
+
+`useRef` is a Hook that lets us store a value that does not cause the component to re-render when it changes.
+
+It is also commonly used to access a DOM element directly.
+
+Example:
+
+```jsx
+import { useRef } from "react";
+
+function Input() {
+  const inputRef = useRef();
+
+  const focusInput = () => {
+    inputRef.current.focus();
+  };
+
+  return (
+    <>
+      <input ref={inputRef} />
+      <button onClick={focusInput}>Focus</button>
+    </>
+  );
+}
+```
+
+Here, `useRef` is used to access the input element and focus it.
+
+---
+
+## Q42. What are React keys and why are they important in lists?
+
+Keys are unique values given to elements when rendering a list.
+
+They help React identify which items have changed, been added, or been removed.
+
+Example:
+
+```jsx
+const users = [
+  { id: 1, name: "John" },
+  { id: 2, name: "Mike" }
+];
+
+function Users() {
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+Using a unique key helps React update lists correctly and efficiently.
+
+---
+
+## Q43. What is the difference between state and props?
+
+**Props** and **state** are both used to store data, but they have different purposes.
+
+| Props                                 | State                        |
+| ------------------------------------- | ---------------------------- |
+| Passed from a parent component        | Managed inside a component   |
+| Read-only                             | Can be changed               |
+| Used to send data to child components | Used to manage changing data |
+| Controlled by the parent              | Controlled by the component  |
+
+Example:
+
+```jsx
+function User({ name }) {
+  const [age, setAge] = useState(20);
+
+  return (
+    <p>
+      {name} is {age} years old
+    </p>
+  );
+}
+```
+
+Here, `name` is a prop and `age` is state.
+
+---
+
+## Q44. How does conditional rendering work in React?
+
+Conditional rendering means showing different UI depending on a condition.
+
+We can use normal JavaScript conditions such as `if`, the ternary operator, or `&&`.
+
+Example using a ternary operator:
+
+```jsx
+function App({ isLoggedIn }) {
+  return (
+    <div>
+      {isLoggedIn ? <h1>Welcome</h1> : <h1>Please Login</h1>}
+    </div>
+  );
+}
+```
+
+If `isLoggedIn` is true, React shows "Welcome". Otherwise, it shows "Please Login".
+
+---
+
+## Q45. What is React.memo and when should you use it?
+
+`React.memo` is used to prevent a component from re-rendering when its props have not changed.
+
+Example:
+
+```jsx
+import React from "react";
+
+const User = React.memo(function User({ name }) {
+  return <h1>{name}</h1>;
+});
+```
+
+React will skip rendering the component if its props are the same as before.
+
+`React.memo` can improve performance, but it should not be used everywhere. It is mainly useful when a component renders often and its props usually stay the same.
+
 📌 About
 
 This README is organized as a personal interview-preparation guide for JavaScript and full-stack web development.
