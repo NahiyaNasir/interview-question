@@ -1207,6 +1207,562 @@ const User = React.memo(function User({ name }) {
 React will skip rendering the component if its props are the same as before.
 
 `React.memo` can improve performance, but it should not be used everywhere. It is mainly useful when a component renders often and its props usually stay the same.
+# React Interview Questions — Q46 to Q60
+
+## Q46. What is the useReducer hook and when is it preferred over useState?
+
+`useReducer` is a React hook used to manage state when the state logic is more complex.
+
+It works with a **reducer function** and an **action**.
+
+```jsx
+const [state, dispatch] = useReducer(reducer, initialState);
+```
+
+I prefer `useReducer` when:
+
+* There are multiple state values.
+* State updates depend on previous state.
+* There are different actions that can change the state.
+* The state logic is becoming difficult to manage with `useState`.
+
+For simple state like a boolean or input value, `useState` is usually easier.
+
+### Follow-up questions
+
+* What are `state` and `dispatch` in `useReducer`?
+* What is a reducer function?
+* Can we use `useState` and `useReducer` together?
+* What is the difference between `useReducer` and Redux?
+
+---
+
+## Q47. Explain the useMemo hook and give a use case.
+
+`useMemo` is used to remember the result of a calculation.
+
+It helps avoid running an expensive calculation every time the component renders.
+
+```jsx
+const total = useMemo(() => {
+  return calculateTotal(products);
+}, [products]);
+```
+
+Here, `calculateTotal` only runs again when `products` changes.
+
+A common use case is filtering or sorting a large list.
+
+### Follow-up questions
+
+* Does `useMemo` stop a component from re-rendering?
+* What is the difference between `useMemo` and `useCallback`?
+* Should we use `useMemo` everywhere?
+* What happens if we don't use `useMemo`?
+
+---
+
+## Q48. What is the useCallback hook and when do you use it?
+
+`useCallback` is used to remember a function between renders.
+
+Normally, a new function is created every time the component renders.
+
+```jsx
+const handleClick = useCallback(() => {
+  console.log("Clicked");
+}, []);
+```
+
+It is mostly useful when passing a function to a child component that is optimized with `React.memo`.
+
+### Follow-up questions
+
+* What is the difference between `useCallback` and `useMemo`?
+* When should you not use `useCallback`?
+* Why does a function get recreated on every render?
+* How does `React.memo` work with `useCallback`?
+
+---
+
+## Q49. What is React Router and how do you set up client-side routing?
+
+React Router is a library used to handle navigation between pages in a React application without reloading the browser.
+
+A basic setup looks like this:
+
+```jsx
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+Now `/` shows the Home component and `/about` shows the About component.
+
+### Follow-up questions
+
+* What is client-side routing?
+* What is `BrowserRouter`?
+* What is the difference between `Route` and `Routes`?
+* How do you create a dynamic route?
+* How do you handle a 404 page?
+
+---
+
+## Q50. What is the difference between useNavigate and Link in React Router?
+
+`Link` is mainly used when the user clicks something to navigate to another page.
+
+```jsx
+<Link to="/about">About</Link>
+```
+
+`useNavigate` is used when we want to navigate using JavaScript.
+
+```jsx
+const navigate = useNavigate();
+
+navigate("/dashboard");
+```
+
+For example, after a successful login, we can use `useNavigate` to send the user to the dashboard.
+
+### Follow-up questions
+
+* When should you use `Link`?
+* When should you use `useNavigate`?
+* Can `Link` be used inside a button?
+* How do you go back to the previous page?
+
+---
+
+## Q51. What are custom hooks in React? Write a simple example.
+
+A custom hook is a JavaScript function that starts with `use` and lets us reuse React logic between components.
+
+For example, we can create a hook for handling window width:
+
+```jsx
+import { useEffect, useState } from "react";
+
+function useWindowWidth() {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return width;
+}
+```
+
+Then we can use it in any component:
+
+```jsx
+const width = useWindowWidth();
+```
+
+Custom hooks are useful when the same logic is needed in multiple components.
+
+### Follow-up questions
+
+* Why do custom hooks start with `use`?
+* Can a custom hook use other hooks?
+* Can a custom hook return an object?
+* What is the difference between a custom hook and a normal function?
+
+---
+
+## Q52. What is lazy loading in React and how is it implemented?
+
+Lazy loading means loading a component only when it is needed.
+
+React provides `lazy()` for this.
+
+```jsx
+import { lazy, Suspense } from "react";
+
+const About = lazy(() => import("./About"));
+
+function App() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <About />
+    </Suspense>
+  );
+}
+```
+
+Instead of loading `About` when the whole application starts, React loads it when it is needed.
+
+This can help reduce the initial bundle size.
+
+### Follow-up questions
+
+* What is `Suspense`?
+* Why do we use `fallback`?
+* What is the benefit of lazy loading?
+* Can we lazy load routes?
+
+---
+
+## Q53. What are React error boundaries and why are they useful?
+
+Error boundaries are used to catch JavaScript errors in a part of the React component tree.
+
+If a component crashes, an error boundary can show a fallback UI instead of breaking the whole application.
+
+Example idea:
+
+```jsx
+<ErrorBoundary>
+  <Dashboard />
+</ErrorBoundary>
+```
+
+They are useful for showing a friendly error message and preventing the entire UI from crashing.
+
+Error boundaries are traditionally implemented with class components.
+
+### Follow-up questions
+
+* Can a functional component itself be an error boundary?
+* What types of errors do error boundaries catch?
+* What is fallback UI?
+* Where should we use error boundaries?
+
+---
+
+## Q54. What is the Context API and when should you use Redux instead?
+
+The Context API allows us to share data between components without passing props through every level.
+
+For example, we can use Context for:
+
+* Theme
+* Logged-in user
+* Language
+* Simple global settings
+
+Example:
+
+```jsx
+const ThemeContext = createContext();
+
+<ThemeContext.Provider value="dark">
+  <App />
+</ThemeContext.Provider>
+```
+
+Redux is useful when the application has more complex global state and many parts of the application need to update or access that state.
+
+I would normally start with local state or Context and use Redux when the application's state management becomes more complex.
+
+### Follow-up questions
+
+* What is prop drilling?
+* How does Context solve prop drilling?
+* Does Context replace Redux completely?
+* What is a Redux store?
+* When should you avoid Context?
+
+---
+
+## Q55. Explain the concept of reconciliation in React.
+
+Reconciliation is the process React uses to figure out what changed in the UI.
+
+When state or props change, React creates a new virtual representation of the UI and compares it with the previous one.
+
+Then React updates only the necessary parts of the real DOM.
+
+For example, if one item in a list changes, React does not need to rebuild the entire page.
+
+Keys are also important during reconciliation because they help React identify list items.
+
+```jsx
+items.map(item => (
+  <li key={item.id}>{item.name}</li>
+));
+```
+
+### Follow-up questions
+
+* What is the Virtual DOM?
+* Why are keys important in React?
+* What happens if we use array index as a key?
+* Does React update the entire DOM after every state change?
+
+---
+
+## Q56. What is the difference between React.Fragment and empty tags (`<>`)?
+
+Both are used to group multiple elements without adding an extra DOM element.
+
+Using `Fragment`:
+
+```jsx
+<React.Fragment>
+  <h1>Hello</h1>
+  <p>Welcome</p>
+</React.Fragment>
+```
+
+Using the short syntax:
+
+```jsx
+<>
+  <h1>Hello</h1>
+  <p>Welcome</p>
+</>
+```
+
+They do almost the same thing.
+
+The main difference is that the short syntax cannot accept props like `key`.
+
+For example:
+
+```jsx
+<React.Fragment key={item.id}>
+  ...
+</React.Fragment>
+```
+
+### Follow-up questions
+
+* Why would you use a Fragment?
+* Does Fragment create a DOM element?
+* Can we add a key to `<>`?
+* When would you use `React.Fragment` instead of `<>`?
+
+---
+
+## Q57. How do you handle forms in React? Explain with Formik or react-hook-form.
+
+There are two common ways to handle forms:
+
+1. Controlled components using React state.
+2. Form libraries such as Formik or react-hook-form.
+
+With `react-hook-form`, a simple example is:
+
+```jsx
+import { useForm } from "react-hook-form";
+
+function Login() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input
+        {...register("email", {
+          required: "Email is required"
+        })}
+      />
+
+      {errors.email && <p>{errors.email.message}</p>}
+
+      <button type="submit">Login</button>
+    </form>
+  );
+}
+```
+
+`react-hook-form` is useful because it makes form validation and form state easier to manage, especially for large forms.
+
+### Follow-up questions
+
+* What is a controlled component?
+* What is an uncontrolled component?
+* Why use react-hook-form?
+* How do you validate a form?
+* How do you handle errors in a form?
+
+---
+
+## Q58. What is code splitting in React and how does it improve performance?
+
+Code splitting means splitting a large JavaScript bundle into smaller files.
+
+Instead of downloading everything when the application starts, we can load some code only when it is needed.
+
+React's `lazy()` is commonly used for this:
+
+```jsx
+const Dashboard = lazy(() => import("./Dashboard"));
+```
+
+This can make the initial page load faster because the browser doesn't need to download all the application code at once.
+
+### Follow-up questions
+
+* What is a JavaScript bundle?
+* What is dynamic import?
+* What is the difference between lazy loading and code splitting?
+* How does code splitting improve initial load time?
+
+---
+
+## Q59. What are portals in React and when are they useful?
+
+Portals allow us to render a React component into a different DOM node outside its normal parent.
+
+Example:
+
+```jsx
+import { createPortal } from "react-dom";
+
+function Modal() {
+  return createPortal(
+    <div className="modal">
+      <h2>Hello</h2>
+    </div>,
+    document.getElementById("modal-root")
+  );
+}
+```
+
+Portals are commonly used for:
+
+* Modals
+* Dialog boxes
+* Tooltips
+* Dropdowns
+* Notifications
+
+They are useful when we don't want CSS like `overflow: hidden` or `z-index` from a parent element to cause problems.
+
+### Follow-up questions
+
+* Why are portals useful for modals?
+* Does a portal still belong to the React component tree?
+* Do events work normally with portals?
+* Where should we create the portal root?
+
+---
+
+## Q60. Explain the lifecycle of a React functional component with hooks.
+
+A functional component mainly goes through three stages:
+
+### 1. Mounting
+
+The component is created and added to the UI.
+
+`useEffect` can run after the component is added to the screen.
+
+```jsx
+useEffect(() => {
+  console.log("Component mounted");
+}, []);
+```
+
+### 2. Updating
+
+The component can re-render when its props or state change.
+
+For example:
+
+```jsx
+const [count, setCount] = useState(0);
+```
+
+When `setCount` is called, the component renders again.
+
+An effect can also run when specific values change:
+
+```jsx
+useEffect(() => {
+  console.log("Count changed");
+}, [count]);
+```
+
+### 3. Unmounting
+
+The component is removed from the UI.
+
+We can use the cleanup function inside `useEffect`:
+
+```jsx
+useEffect(() => {
+  const timer = setInterval(() => {
+    console.log("Running...");
+  }, 1000);
+
+  return () => {
+    clearInterval(timer);
+  };
+}, []);
+```
+
+The cleanup function runs when the component is unmounted.
+
+So, in simple terms:
+
+**Mount → Update → Unmount**
+
+### Follow-up questions
+
+* When does `useEffect` run?
+* What is the cleanup function in `useEffect`?
+* What happens when the dependency array is empty?
+* What happens when there is no dependency array?
+* What causes a React component to re-render?
+* Is there a lifecycle method in functional components?
+* How is `useEffect` different from `componentDidMount`?
+* How do you prevent memory leaks in a component?
+
+---
+
+# Quick Follow-up Questions
+
+Here are some extra questions an interviewer may ask after these topics:
+
+1. What is the difference between `useState` and `useReducer`?
+2. What is the difference between `useMemo` and `useCallback`?
+3. Why should we not optimize everything with `useMemo`?
+4. What causes a React component to re-render?
+5. What is prop drilling?
+6. What is the Virtual DOM?
+7. Why are keys important in React lists?
+8. What is the difference between controlled and uncontrolled components?
+9. What is the difference between Context API and Redux?
+10. What is lazy loading?
+11. What is code splitting?
+12. What is `Suspense`?
+13. What is an error boundary?
+14. What is a custom hook?
+15. Can hooks be called inside loops or conditions?
+16. What are the Rules of Hooks?
+17. What is the difference between `Link` and `useNavigate`?
+18. What is client-side routing?
+19. What are React portals?
+20. What happens when a component unmounts?
+
 
 📌 About
 
