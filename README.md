@@ -866,6 +866,19 @@ WeakMap and WeakSet
 
 Memoization
 
+
+🎯 One rule I want you to remember
+
+When you see a difficult JavaScript question, don't try to guess the answer immediately.
+
+Do this:
+
+1. Is it synchronous or asynchronous?
+2. If asynchronous, is it a microtask or a task?
+3. If this appears, ask: how was the function called?
+4. If there is await, remember that everything after await is postponed.
+5. If objects are involved, ask: same reference or a copy?
+
    REACT QUES
 # Components, Hooks & State Management
 
