@@ -1776,6 +1776,9 @@ Here are some extra questions an interviewer may ask after these topics:
 19. What are React portals?
 20. What happens when a component unmounts?
 
+```
+
+console.log("End");
 
 📌 About
 
