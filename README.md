@@ -2623,6 +2623,1085 @@ For example, a GitHub Actions workflow might use:
 | `npm install`        | Resolves and installs dependencies           |
 
 ---
+# Express.js Interview Questions
+
+Simple English answers with real-world examples for Express.js interviews.
+
+---
+
+## 1. Explain the Express.js Request-Response Lifecycle
+
+When a client sends a request to an Express.js server, the request goes through middleware and then reaches the correct route.
+
+The basic flow is:
+
+```text
+Client
+  ↓
+Request
+  ↓
+Middleware
+  ↓
+Authentication / Validation
+  ↓
+Route
+  ↓
+Controller
+  ↓
+Database
+  ↓
+Response
+  ↓
+Client
+```
+
+### Example
+
+```js
+app.get('/users', (req, res) => {
+  res.json({
+    message: 'Users fetched successfully'
+  });
+});
+```
+
+When the client sends:
+
+```text
+GET /users
+```
+
+Express finds the `/users` route and sends the response.
+
+### Real-world example
+
+Imagine an online shopping website.
+
+When you open your orders:
+
+1. Request comes from the browser.
+2. Middleware checks the request.
+3. Authentication checks if you are logged in.
+4. Route receives the request.
+5. Controller gets orders from the database.
+6. Server sends the orders back to the browser.
+
+---
+
+# 2. What is Middleware in Express.js?
+
+Middleware is a function that runs between the request and the response.
+
+It can be used for:
+
+* Authentication
+* Logging
+* Validation
+* Error handling
+* Checking permissions
+* Modifying request data
+
+### Example
+
+```js
+const logger = (req, res, next) => {
+  console.log(req.method, req.url);
+  next();
+};
+
+app.use(logger);
+```
+
+Here, `next()` tells Express to continue to the next middleware or route.
+
+### Real-world example
+
+Think about entering an office.
+
+A security guard checks your ID before allowing you inside.
+
+The security guard is like middleware.
+
+```text
+Visitor
+   ↓
+Security Guard
+   ↓
+Office
+```
+
+---
+
+# 3. Difference Between Application-Level, Router-Level, and Error-Handling Middleware
+
+## Application-Level Middleware
+
+Application-level middleware is added to the main Express application.
+
+```js
+app.use((req, res, next) => {
+  console.log('Request received');
+  next();
+});
+```
+
+It can work for many routes.
+
+---
+
+## Router-Level Middleware
+
+Router-level middleware is attached to a specific router.
+
+```js
+const express = require('express');
+
+const router = express.Router();
+
+router.use(authMiddleware);
+
+router.get('/profile', getProfile);
+
+module.exports = router;
+```
+
+Here, `authMiddleware` is mainly used for routes inside this router.
+
+---
+
+## Error-Handling Middleware
+
+Error-handling middleware handles errors in one common place.
+
+It has four parameters:
+
+```js
+app.use((err, req, res, next) => {
+  res.status(500).json({
+    message: err.message
+  });
+});
+```
+
+### Simple way to remember
+
+```text
+Application middleware → Whole application
+
+Router middleware → Specific router
+
+Error middleware → Handles errors
+```
+
+---
+
+# 4. How Does `next()` Work?
+
+`next()` tells Express to continue to the next middleware.
+
+### Example
+
+```js
+app.use((req, res, next) => {
+  console.log('Middleware 1');
+  next();
+});
+
+app.use((req, res, next) => {
+  console.log('Middleware 2');
+  next();
+});
+```
+
+Output:
+
+```text
+Middleware 1
+Middleware 2
+```
+
+If we don't call `next()` and don't send a response, the request may keep waiting.
+
+### `next(error)`
+
+We can pass an error to Express:
+
+```js
+next(error);
+```
+
+Then Express sends the error to error-handling middleware.
+
+### Real-world example
+
+Think of a production line.
+
+```text
+Worker 1
+   ↓
+Worker 2
+   ↓
+Worker 3
+   ↓
+Finished Product
+```
+
+`next()` means:
+
+> "My work is finished. Send it to the next worker."
+
+---
+
+# 5. How Would You Structure a Scalable Express.js Project?
+
+For a small project, we can keep everything in a few files.
+
+For a large project, I would separate the code.
+
+### Example structure
+
+```text
+project/
+│
+├── src/
+│   ├── routes/
+│   │   ├── userRoutes.js
+│   │   ├── productRoutes.js
+│   │   └── orderRoutes.js
+│   │
+│   ├── controllers/
+│   │   ├── userController.js
+│   │   ├── productController.js
+│   │   └── orderController.js
+│   │
+│   ├── services/
+│   │
+│   ├── models/
+│   │
+│   ├── middleware/
+│   │
+│   ├── validators/
+│   │
+│   ├── config/
+│   │
+│   └── app.js
+│
+└── server.js
+```
+
+### What each folder does
+
+```text
+routes       → Defines API routes
+
+controllers  → Handles requests and responses
+
+services     → Business logic
+
+models       → Database models
+
+middleware   → Authentication, validation, etc.
+
+validators   → Checks incoming data
+
+config       → Database and application configuration
+```
+
+### Real-world example
+
+For an e-commerce application, I would keep:
+
+```text
+users
+products
+orders
+payments
+```
+
+separate instead of putting everything into one huge file.
+
+This makes the project easier to maintain.
+
+---
+
+# 6. Explain REST API Best Practices in Express.js
+
+REST API means creating APIs using standard HTTP methods and clear URLs.
+
+### Common HTTP methods
+
+```text
+GET     → Get data
+POST    → Create data
+PUT     → Update data
+PATCH   → Partially update data
+DELETE  → Delete data
+```
+
+### Example
+
+```text
+GET    /users
+POST   /users
+GET    /users/10
+PUT    /users/10
+DELETE /users/10
+```
+
+### Use proper status codes
+
+```text
+200 → Success
+
+201 → Created
+
+400 → Bad Request
+
+401 → Not Authenticated
+
+403 → Not Allowed
+
+404 → Not Found
+
+500 → Server Error
+```
+
+### Example
+
+```js
+app.post('/users', (req, res) => {
+  res.status(201).json({
+    message: 'User created successfully'
+  });
+});
+```
+
+### Other good practices
+
+* Validate input
+* Use authentication
+* Use authorization
+* Handle errors properly
+* Use consistent response formats
+* Don't expose sensitive information
+* Use pagination for large data
+* Use meaningful API URLs
+
+---
+
+# 7. How Do You Implement Centralized Error Handling?
+
+Centralized error handling means handling application errors in one place.
+
+Instead of writing different error responses in every route, we create one error middleware.
+
+### Example
+
+```js
+app.get('/users/:id', async (req, res, next) => {
+  try {
+    const user = await getUser(req.params.id);
+
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
+
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+```
+
+Then at the end of the application:
+
+```js
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+
+  res.status(statusCode).json({
+    success: false,
+    message: err.message || 'Internal Server Error'
+  });
+});
+```
+
+### Why is this useful?
+
+It keeps error responses consistent.
+
+### Real-world example
+
+Suppose the database is down.
+
+Instead of every API showing a different error message, the centralized error handler can return a common response.
+
+```json
+{
+  "success": false,
+  "message": "Database connection failed"
+}
+```
+
+---
+
+# 8. How Do You Validate Incoming Request Data?
+
+Validation means checking whether the data sent by the client is correct before using it.
+
+For example, during registration:
+
+```text
+email → Required and valid
+
+password → Required and strong enough
+
+name → Required
+```
+
+### Simple example
+
+```js
+app.post('/register', (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email) {
+    return res.status(400).json({
+      message: 'Email is required'
+    });
+  }
+
+  if (!password) {
+    return res.status(400).json({
+      message: 'Password is required'
+    });
+  }
+
+  res.json({
+    message: 'Validation successful'
+  });
+});
+```
+
+For bigger projects, I would use a validation library such as Joi, Zod, or express-validator.
+
+### Real-world example
+
+If a user creates an account without an email address, we should not send that data directly to the database.
+
+We validate it first.
+
+```text
+Request
+   ↓
+Validation
+   ↓
+Valid?
+ ┌─┴─┐
+Yes  No
+ ↓    ↓
+DB   Error
+```
+
+---
+
+# 9. Explain Route Modularization in Express.js
+
+Route modularization means putting different routes into different files.
+
+Instead of having this:
+
+```text
+app.js
+  ↓
+1000 lines of routes
+```
+
+we can have:
+
+```text
+routes/
+├── userRoutes.js
+├── productRoutes.js
+├── orderRoutes.js
+└── authRoutes.js
+```
+
+### Example
+
+`userRoutes.js`
+
+```js
+const express = require('express');
+
+const router = express.Router();
+
+router.get('/', getUsers);
+
+router.post('/', createUser);
+
+module.exports = router;
+```
+
+Then in `app.js`:
+
+```js
+const userRoutes = require('./routes/userRoutes');
+
+app.use('/users', userRoutes);
+```
+
+Now these APIs are available:
+
+```text
+GET  /users
+POST /users
+```
+
+### Why use it?
+
+It makes the project:
+
+* Cleaner
+* Easier to understand
+* Easier to test
+* Easier to maintain
+
+---
+
+# 10. Difference Between Authentication and Authorization
+
+These two words are very common in interviews.
+
+## Authentication
+
+Authentication means:
+
+> Who are you?
+
+For example, a user logs in using:
+
+```text
+Email
+Password
+```
+
+The server checks whether the login details are correct.
+
+---
+
+## Authorization
+
+Authorization means:
+
+> What are you allowed to do?
+
+For example:
+
+```text
+Admin → Can delete users
+
+Manager → Can update users
+
+Normal User → Can only view their profile
+```
+
+### Easy way to remember
+
+```text
+Authentication = Who are you?
+
+Authorization = What can you do?
+```
+
+### Real-world example
+
+When you enter a company:
+
+The security guard checks your ID.
+
+That is **authentication**.
+
+After entering, your employee role decides whether you can enter the server room.
+
+That is **authorization**.
+
+---
+
+# 11. How Do You Implement Role-Based Access Control (RBAC)?
+
+RBAC means giving permissions based on a user's role.
+
+For example:
+
+```text
+Admin
+Manager
+User
+```
+
+Each role has different permissions.
+
+### Example
+
+```js
+const checkRole = (role) => {
+  return (req, res, next) => {
+    if (req.user.role !== role) {
+      return res.status(403).json({
+        message: 'Access denied'
+      });
+    }
+
+    next();
+  };
+};
+```
+
+Then:
+
+```js
+app.delete(
+  '/users/:id',
+  authMiddleware,
+  checkRole('admin'),
+  deleteUser
+);
+```
+
+Now only an admin can delete users.
+
+### Real-world example
+
+Imagine an employee management system:
+
+```text
+Admin:
+- Create employee
+- Update employee
+- Delete employee
+
+Manager:
+- View employee
+- Update employee
+
+Employee:
+- View own profile
+```
+
+This is RBAC.
+
+---
+
+# 12. How Would You Secure an Express.js API?
+
+I would use multiple security methods.
+
+### 1. Use HTTPS
+
+HTTPS encrypts data between the client and server.
+
+### 2. Validate input
+
+Never trust data coming from the client.
+
+### 3. Hash passwords
+
+Never store plain-text passwords.
+
+For example:
+
+```text
+Wrong:
+
+password = "hello123"
+
+Correct:
+
+password = "$2b$10$...."
+```
+
+### 4. Authentication
+
+Only logged-in users should access protected APIs.
+
+### 5. Authorization
+
+Users should only access resources they are allowed to use.
+
+### 6. Rate limiting
+
+Rate limiting helps stop users from sending too many requests.
+
+### 7. Secure cookies
+
+When using cookies for authentication, configure them securely.
+
+### 8. CORS
+
+Only allow trusted frontend origins when appropriate.
+
+### 9. Environment variables
+
+Don't put secrets directly in the source code.
+
+```js
+const dbPassword = process.env.DB_PASSWORD;
+```
+
+### 10. Keep dependencies updated
+
+Old packages can contain security problems.
+
+### Real-world example
+
+For a banking application, I would not allow a normal user to access admin APIs.
+
+I would use:
+
+```text
+HTTPS
++
+Authentication
++
+Authorization
++
+Validation
++
+Rate Limiting
++
+Secure Cookies/Tokens
++
+Error Handling
+```
+
+---
+
+# 13. Explain CORS and Common Issues Developers Face
+
+CORS stands for:
+
+**Cross-Origin Resource Sharing**
+
+It controls which websites can make requests to your API from a browser.
+
+For example:
+
+```text
+Frontend:
+https://myshop.com
+
+Backend:
+https://api.myshop.com
+```
+
+These are different origins.
+
+The backend needs to allow the frontend if browser requests are expected.
+
+### Express example
+
+```js
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'https://myshop.com'
+}));
+```
+
+### Common CORS problems
+
+Developers often see:
+
+```text
+Access to fetch has been blocked by CORS policy
+```
+
+Common reasons include:
+
+* Wrong frontend URL
+* Backend doesn't allow the frontend origin
+* Incorrect credentials configuration
+* OPTIONS/preflight request not handled correctly
+* Different configuration between development and production
+
+### Real-world example
+
+During development:
+
+```text
+Frontend:
+http://localhost:3000
+```
+
+But after deployment:
+
+```text
+Frontend:
+https://myshop.com
+```
+
+If the backend only allows:
+
+```text
+http://localhost:3000
+```
+
+the production frontend can get a CORS error.
+
+---
+
+# 14. How Do Cookies and Sessions Work in Express.js?
+
+A cookie is a small piece of data stored in the user's browser.
+
+The server can send a cookie to the browser.
+
+The browser then sends that cookie with future requests.
+
+### Basic flow
+
+```text
+User Login
+    ↓
+Server creates session
+    ↓
+Server sends session cookie
+    ↓
+Browser stores cookie
+    ↓
+Browser sends cookie with next request
+    ↓
+Server finds session
+    ↓
+User is recognized
+```
+
+### Express example
+
+Using `express-session`:
+
+```js
+const session = require('express-session');
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+```
+
+After login:
+
+```js
+req.session.userId = user.id;
+```
+
+Now the server can identify the logged-in user using the session.
+
+### Real-world example
+
+Suppose you log in to an online shopping website.
+
+You don't want to log in again every time you open:
+
+```text
+Profile
+Orders
+Cart
+Settings
+```
+
+The session helps the server remember that you are logged in.
+
+### Important point
+
+In a production application, sessions should use an appropriate shared session store rather than relying on a single server's memory.
+
+---
+
+# 15. Difference Between Stateless and Stateful Authentication
+
+## Stateful Authentication
+
+In stateful authentication, the server stores information about the user's session.
+
+### Flow
+
+```text
+User Login
+    ↓
+Server creates session
+    ↓
+Session stored on server
+    ↓
+Browser receives session ID
+    ↓
+Browser sends session ID
+    ↓
+Server finds session
+```
+
+The server keeps information about the user's login.
+
+---
+
+## Stateless Authentication
+
+In stateless authentication, the server does not keep the login session in server memory.
+
+A common example is JWT-based authentication.
+
+### Flow
+
+```text
+User Login
+    ↓
+Server creates token
+    ↓
+Client receives token
+    ↓
+Client sends token with requests
+    ↓
+Server verifies token
+```
+
+The server mainly verifies the token instead of looking up a server-side session.
+
+---
+
+## Simple Example
+
+Think about a hotel.
+
+### Stateful
+
+The hotel keeps your booking information in its system.
+
+When you arrive, they look up your booking.
+
+```text
+Your ID
+   ↓
+Hotel System
+   ↓
+Your Booking
+```
+
+### Stateless
+
+You have a valid signed ticket.
+
+The staff checks the ticket instead of looking up your session.
+
+```text
+Your Ticket
+    ↓
+Verify Ticket
+    ↓
+Allow Access
+```
+
+---
+
+# Quick Interview Revision
+
+Before an interview, remember these simple points:
+
+```text
+1. Request lifecycle
+   → Request → Middleware → Route → Controller → Database → Response
+
+2. Middleware
+   → Function between request and response
+
+3. Middleware types
+   → Application, Router, Error handling
+
+4. next()
+   → Moves to the next middleware
+
+5. Project structure
+   → Routes, Controllers, Services, Models, Middleware
+
+6. REST API
+   → Use proper HTTP methods and status codes
+
+7. Error handling
+   → One centralized error middleware
+
+8. Validation
+   → Check request data before using it
+
+9. Route modularization
+   → Keep routes in separate files
+
+10. Authentication
+    → Who are you?
+
+11. Authorization
+    → What can you do?
+
+12. RBAC
+    → Permissions based on roles
+
+13. API security
+    → HTTPS, validation, auth, rate limiting, secure cookies, etc.
+
+14. CORS
+    → Controls browser cross-origin requests
+
+15. Sessions
+    → Server remembers the user's session
+
+16. Stateless auth
+    → Server verifies a token instead of storing the session
+```
+
+# One-Line Answers for Fast Revision
+
+**What is Express.js?**
+
+Express.js is a Node.js framework used to build web servers and APIs easily.
+
+**What is middleware?**
+
+Middleware is a function that runs between the request and response.
+
+**What is `next()`?**
+
+`next()` tells Express to continue to the next middleware or route.
+
+**Authentication vs Authorization?**
+
+Authentication checks who you are, while authorization checks what you can do.
+
+**What is RBAC?**
+
+RBAC gives users permissions based on their roles.
+
+**What is CORS?**
+
+CORS controls which origins can make browser requests to an API.
+
+**What is centralized error handling?**
+
+It means handling application errors in one common middleware.
+
+**What is validation?**
+
+Validation checks whether incoming data is correct and acceptable.
+
+**What is a session?**
+
+A session allows the server to remember a user's login state.
+
+**Stateful vs Stateless?**
+
+Stateful authentication stores session information on the server, while stateless authentication verifies information such as a token without keeping that login session in server memory.
+
 
 # Interview Tip
 
