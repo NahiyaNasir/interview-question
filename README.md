@@ -1776,9 +1776,871 @@ Here are some extra questions an interviewer may ask after these topics:
 19. What are React portals?
 20. What happens when a component unmounts?
 
-```
+# Node.js Interview Questions & Answers
+
+Simple English + real-world examples for interviews.
+
+---
+
+## 1. Explain the Node.js event loop architecture in detail.
+
+Node.js uses an **event loop** to handle many requests without waiting for every operation to finish.
+
+For example, if Node.js needs to read a file, it starts the file operation and continues doing other work. When the file is ready, Node.js runs the callback.
+
+```js
+const fs = require("fs");
+
+console.log("Start");
+
+fs.readFile("data.txt", "utf8", (err, data) => {
+  console.log("File read");
+});
 
 console.log("End");
+```
+
+Output:
+
+```text
+Start
+End
+File read
+```
+
+The basic flow is:
+
+```text
+JavaScript
+    ↓
+Node.js
+    ↓
+libuv
+    ↓
+OS / Thread Pool
+    ↓
+Operation finishes
+    ↓
+Callback Queue
+    ↓
+Event Loop
+    ↓
+Callback runs
+```
+
+The event loop has different phases, such as timers, poll, check, and close callbacks.
+
+**Simple interview answer:**
+
+> The Node.js event loop allows Node.js to handle asynchronous operations without blocking the main JavaScript thread. When an async operation finishes, its callback is picked up by the event loop and executed.
+
+---
+
+## 2. What is the difference between process.nextTick(), setImmediate(), and setTimeout()?
+
+All three are used to run code later, but their timing is different.
+
+### process.nextTick()
+
+Runs very soon after the current operation.
+
+```js
+process.nextTick(() => {
+  console.log("nextTick");
+});
+```
+
+### setImmediate()
+
+Runs during the event loop's check phase.
+
+```js
+setImmediate(() => {
+  console.log("Immediate");
+});
+```
+
+### setTimeout()
+
+Runs after the specified delay.
+
+```js
+setTimeout(() => {
+  console.log("Timeout");
+}, 0);
+```
+
+`setTimeout(..., 0)` does not mean exactly 0 milliseconds. It means the callback can run after the timer is ready.
+
+**Easy way to remember:**
+
+```text
+process.nextTick()
+      ↓
+event loop continues
+      ↓
+setImmediate / setTimeout
+```
+
+The exact order between `setImmediate()` and `setTimeout(..., 0)` can depend on where they are called.
+
+---
+
+## 3. How does Node.js handle asynchronous operations internally?
+
+When Node.js gets an asynchronous operation, it does not sit and wait for it.
+
+For example:
+
+```js
+fs.readFile("users.json", callback);
+```
+
+Node.js gives the operation to the operating system or libuv.
+
+The basic flow is:
+
+```text
+Node.js
+   ↓
+libuv
+   ↓
+OS / Thread Pool
+   ↓
+Operation completes
+   ↓
+Callback is queued
+   ↓
+Event Loop
+   ↓
+Callback executes
+```
+
+While the file is being read, Node.js can handle other requests.
+
+This is why Node.js is good for applications with lots of I/O operations.
+
+Examples:
+
+* Database requests
+* File operations
+* HTTP requests
+* Network operations
+
+---
+
+## 4. Explain the role of libuv in Node.js.
+
+**libuv** is an important library used by Node.js.
+
+It provides the event loop and helps Node.js handle asynchronous operations.
+
+For example:
+
+```js
+fs.readFile("test.txt", callback);
+```
+
+libuv helps manage this asynchronous work.
+
+It also has a thread pool for some operations that cannot be handled directly with non-blocking OS APIs.
+
+Examples include:
+
+* File system operations
+* Some DNS operations
+* Crypto operations
+* Compression
+
+**Interview answer:**
+
+> libuv is the library behind Node.js that provides the event loop and asynchronous I/O infrastructure. It also uses a thread pool for some operations that could otherwise block the main thread.
+
+---
+
+## 5. What are streams in Node.js? Explain different stream types.
+
+Streams allow us to process data **in small chunks** instead of loading the complete data into memory.
+
+There are four main types.
+
+### 1. Readable
+
+Used to read data.
+
+```js
+const fs = require("fs");
+
+const stream = fs.createReadStream("video.mp4");
+```
+
+### 2. Writable
+
+Used to write data.
+
+```js
+const stream = fs.createWriteStream("output.txt");
+```
+
+### 3. Duplex
+
+Can read and write data.
+
+A TCP socket is an example.
+
+### 4. Transform
+
+Can modify data while it passes through the stream.
+
+```text
+Input
+  ↓
+Transform
+  ↓
+Output
+```
+
+### Real-world example
+
+Suppose a user downloads a 5 GB video.
+
+We don't want to load the whole 5 GB into RAM.
+
+Instead:
+
+```text
+Video File
+   ↓
+Stream
+   ↓
+Network
+   ↓
+User
+```
+
+The video is sent in chunks.
+
+---
+
+## 6. How would you handle large file uploads efficiently in Node.js?
+
+I would use **streams** instead of loading the complete file into memory.
+
+For example, if a user uploads a 2 GB file, putting the whole file into RAM can cause memory problems.
+
+A better approach is:
+
+```text
+Client
+  ↓
+Upload Stream
+  ↓
+Validation
+  ↓
+Storage
+```
+
+In a real project, I would also add:
+
+* Maximum file size
+* File type validation
+* Authentication
+* Virus scanning
+* Proper error handling
+* Cloud/object storage
+
+For example, the file could be streamed directly to object storage instead of being completely stored in the Node.js server's memory.
+
+**Interview answer:**
+
+> For large uploads, I would use streams so the file is processed in chunks instead of loading the whole file into memory.
+
+---
+
+## 7. What is backpressure in streams and how do you solve it?
+
+Backpressure happens when the producer sends data faster than the consumer can process it.
+
+For example:
+
+```text
+Fast File Reader
+       ↓↓↓↓↓↓↓
+Slow Network
+```
+
+The reader produces data quickly, but the network cannot handle it that fast.
+
+This can cause memory usage to increase.
+
+Node.js streams provide backpressure handling.
+
+A common solution is:
+
+```js
+readable.pipe(writable);
+```
+
+Example:
+
+```js
+const fs = require("fs");
+
+const readStream = fs.createReadStream("large.mp4");
+const writeStream = fs.createWriteStream("copy.mp4");
+
+readStream.pipe(writeStream);
+```
+
+`pipe()` manages the data flow between the streams.
+
+**Interview answer:**
+
+> Backpressure happens when the writable side is slower than the readable side. Node.js streams handle this by controlling the flow of data so memory does not keep increasing.
+
+---
+
+## 8. Explain clustering in Node.js. When should you use it?
+
+Normally, Node.js runs JavaScript on one main thread.
+
+But a server can have multiple CPU cores.
+
+The **cluster module** allows us to run multiple Node.js processes.
+
+For example:
+
+```text
+CPU 1 → Node Process
+CPU 2 → Node Process
+CPU 3 → Node Process
+CPU 4 → Node Process
+```
+
+Each process has its own memory.
+
+### When can we use it?
+
+It can be useful when:
+
+* The application has high traffic.
+* We want to use multiple CPU cores.
+* We want multiple Node.js server processes.
+
+**Simple interview answer:**
+
+> Clustering allows us to run multiple Node.js processes so we can use multiple CPU cores and handle more traffic.
+
+---
+
+## 9. Difference between worker threads and cluster module?
+
+The main difference is:
+
+```text
+Cluster       → Multiple processes
+Worker Thread → Multiple threads
+```
+
+### Cluster
+
+Cluster creates separate Node.js processes.
+
+```text
+Process 1
+Process 2
+Process 3
+```
+
+Each process has its own memory.
+
+### Worker Threads
+
+Worker threads run JavaScript work in separate threads within the same Node.js process.
+
+They are useful for CPU-heavy tasks.
+
+Examples:
+
+* Image processing
+* Large calculations
+* Data processing
+* CPU-heavy encryption
+
+**Interview answer:**
+
+> Cluster is mainly used to run multiple Node.js processes, while worker threads are used to run CPU-heavy JavaScript work in separate threads.
+
+---
+
+## 10. How does Node.js achieve non-blocking I/O?
+
+Node.js does not wait for I/O operations to finish.
+
+Example:
+
+```js
+const fs = require("fs");
+
+fs.readFile("users.json", () => {
+  console.log("File finished");
+});
+
+console.log("Continue");
+```
+
+Output:
+
+```text
+Continue
+File finished
+```
+
+Node starts the file operation and continues with other work.
+
+The basic idea is:
+
+```text
+Start I/O
+   ↓
+Node continues other work
+   ↓
+I/O finishes
+   ↓
+Callback executes
+```
+
+This is called **non-blocking I/O**.
+
+It is one of the main reasons Node.js works well for applications with many network connections.
+
+---
+
+## 11. Explain CommonJS vs ES Modules in Node.js.
+
+Node.js supports two major module systems.
+
+### CommonJS
+
+CommonJS is commonly seen in older Node.js projects.
+
+```js
+const express = require("express");
+
+module.exports = myFunction;
+```
+
+It uses:
+
+```js
+require()
+module.exports
+```
+
+### ES Modules
+
+ES Modules use the standard JavaScript `import` and `export` syntax.
+
+```js
+import express from "express";
+
+export default myFunction;
+```
+
+It uses:
+
+```js
+import
+export
+```
+
+### Comparison
+
+| CommonJS                   | ES Modules                 |
+| -------------------------- | -------------------------- |
+| `require()`                | `import`                   |
+| `module.exports`           | `export`                   |
+| Older/common Node.js style | Modern JavaScript standard |
+
+**Interview answer:**
+
+> CommonJS uses require and module.exports, while ES Modules use import and export. Node.js supports both.
+
+---
+
+## 12. What are memory leaks in Node.js and how do you debug them?
+
+A memory leak happens when the application keeps objects in memory even though they are no longer needed.
+
+Example:
+
+```js
+const users = [];
+
+setInterval(() => {
+  users.push({
+    name: "John",
+    time: Date.now()
+  });
+}, 1000);
+```
+
+Every second, a new object is added.
+
+The array keeps growing, so memory usage can keep increasing.
+
+### Common causes
+
+* Global variables
+* Unlimited caches
+* Timers that are never cleared
+* Event listeners that are never removed
+* Keeping large objects unnecessarily
+
+### How to debug
+
+I would check:
+
+* Memory usage
+* Heap snapshots
+* Garbage collection
+* Large objects
+* Event listeners
+* Caches
+
+Node.js also provides:
+
+```js
+console.log(process.memoryUsage());
+```
+
+For a real production problem, I would use heap snapshots and profiling tools to find what is staying in memory.
+
+---
+
+## 13. How would you optimize a slow Node.js application?
+
+First, I would not randomly change code.
+
+I would find the actual bottleneck.
+
+I would check:
+
+1. CPU usage
+2. Memory usage
+3. Database queries
+4. API response time
+5. Event loop blocking
+6. Network calls
+7. External services
+
+For example:
+
+```text
+Node.js code     → 100 ms
+Database query   → 2.5 sec
+External API     → 400 ms
+```
+
+Here the database is the main problem.
+
+Changing Node.js code won't solve the biggest issue.
+
+### Things I might do
+
+* Optimize database queries
+* Add database indexes
+* Add caching
+* Use pagination
+* Use connection pooling
+* Use streams for large data
+* Use worker threads for CPU-heavy tasks
+* Remove unnecessary API calls
+* Avoid synchronous operations
+
+My approach would be:
+
+```text
+Measure
+   ↓
+Find bottleneck
+   ↓
+Fix it
+   ↓
+Measure again
+```
+
+**Interview answer:**
+
+> I would first measure the application and find the bottleneck. Then I would optimize the database, Node.js code, network calls, or memory depending on where the actual problem is.
+
+---
+
+## 14. Explain Event Emitters with practical use cases.
+
+An EventEmitter allows one part of the application to **emit an event** and another part to listen for it.
+
+Example:
+
+```js
+const EventEmitter = require("events");
+
+const emitter = new EventEmitter();
+
+emitter.on("userRegistered", (user) => {
+  console.log("Send welcome email to:", user.email);
+});
+
+emitter.emit("userRegistered", {
+  email: "john@example.com"
+});
+```
+
+Here:
+
+```text
+User registers
+      ↓
+userRegistered event
+      ↓
+Email listener
+      ↓
+Send welcome email
+```
+
+### Real-world examples
+
+Event emitters can be used for:
+
+* User registration
+* Order creation
+* Payment completion
+* Notifications
+* Logging
+* Internal application events
+
+Node.js itself uses events in many APIs.
+
+For example, streams can emit:
+
+```js
+data
+error
+end
+close
+```
+
+**Interview answer:**
+
+> EventEmitter allows different parts of an application to communicate using events. One part emits an event and another part listens for it.
+
+---
+
+# 15. What happens internally when you run npm install?
+
+Suppose we have this `package.json`:
+
+```json
+{
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
+```
+
+Then we run:
+
+```bash
+npm install
+```
+
+### Step 1: npm reads package.json
+
+npm checks which packages the project needs.
+
+```text
+package.json
+     ↓
+express
+```
+
+### Step 2: npm checks package-lock.json
+
+If `package-lock.json` exists, npm uses it to help determine the dependency tree and resolved versions.
+
+This makes installs more consistent.
+
+### Step 3: npm resolves dependencies
+
+Express has its own dependencies.
+
+So npm creates a dependency tree.
+
+```text
+my-app
+ └── express
+      ├── dependency A
+      ├── dependency B
+      └── dependency C
+```
+
+Those dependencies can also have their own dependencies.
+
+### Step 4: npm downloads packages
+
+npm downloads the required packages from the configured npm registry.
+
+They are installed into:
+
+```text
+node_modules/
+```
+
+After installation:
+
+```text
+project/
+├── package.json
+├── package-lock.json
+├── node_modules/
+└── src/
+```
+
+### Step 5: npm runs lifecycle scripts
+
+Some packages have installation scripts.
+
+For example, a package may need to compile native code or perform some setup.
+
+### Step 6: npm updates package-lock.json
+
+If the dependency tree changes, npm can update the lock file.
+
+---
+
+## Real-world npm install example
+
+Imagine I join a company and get a Node.js project from GitHub.
+
+I clone it:
+
+```bash
+git clone company-project
+cd company-project
+```
+
+I see:
+
+```text
+package.json
+package-lock.json
+src/
+```
+
+There is no `node_modules` folder because it normally isn't committed to Git.
+
+I run:
+
+```bash
+npm install
+```
+
+npm basically does this:
+
+```text
+Read package.json
+       ↓
+Check package-lock.json
+       ↓
+Resolve dependencies
+       ↓
+Download packages
+       ↓
+Install into node_modules
+       ↓
+Run required scripts
+```
+
+After that, I can run:
+
+```bash
+npm run dev
+```
+
+and start the application.
+
+---
+
+## npm install vs npm ci
+
+### npm install
+
+Usually used during development.
+
+```bash
+npm install
+```
+
+It can install dependencies and update the lock file when needed.
+
+### npm ci
+
+Commonly used in CI/CD pipelines.
+
+```bash
+npm ci
+```
+
+It installs from the lock file and is designed for clean, reproducible installs.
+
+For example, a GitHub Actions workflow might use:
+
+```yaml
+- name: Install dependencies
+  run: npm ci
+```
+
+---
+
+# Quick Revision
+
+| Topic                | Easy Meaning                                 |
+| -------------------- | -------------------------------------------- |
+| Event Loop           | Handles async work                           |
+| `process.nextTick()` | Runs very soon after current operation       |
+| `setImmediate()`     | Runs in check phase                          |
+| `setTimeout()`       | Runs after timer delay                       |
+| libuv                | Provides event loop and async infrastructure |
+| Streams              | Process data in chunks                       |
+| Backpressure         | Producer is faster than consumer             |
+| Cluster              | Multiple Node.js processes                   |
+| Worker Threads       | Separate threads for CPU-heavy work          |
+| Non-blocking I/O     | Node doesn't wait for I/O                    |
+| CommonJS             | `require()` / `module.exports`               |
+| ES Modules           | `import` / `export`                          |
+| Memory Leak          | Unwanted objects stay in memory              |
+| EventEmitter         | Communicate using events                     |
+| `npm install`        | Resolves and installs dependencies           |
+
+---
+
+# Interview Tip
+
+Don't try to memorize the answers word-for-word.
+
+For most Node.js questions, answer in this order:
+
+```text
+1. What is it?
+2. Why do we use it?
+3. Give a small example.
+4. Give a real-world example.
+```
+
+For example, if they ask about streams:
+
+> "Streams allow us to process data in chunks instead of loading the whole thing into memory. They are useful for large files, uploads, and downloads. For example, if a user uploads a 2 GB file, I would use a stream instead of putting the complete file into memory."
+
 
 📌 About
 
