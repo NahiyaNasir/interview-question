@@ -1,10 +1,12 @@
-# 🧠 Full-Stack Web Developer Interview Questions (108 Questions)
+# 🧠 Full-Stack Web Developer Interview Questions (140+ Questions)
 
-> A complete, beautifully organized collection of 108 full-stack web development interview questions and answers — curated for quick revision before technical interviews.
+> A complete, beautifully organized collection of full-stack web development interview questions and answers — JavaScript, TypeScript, React, Next.js, Node.js, Express.js, Databases & Distributed Systems — curated for quick revision before technical interviews.
 
 [![GitHub](https://img.shields.io/badge/GitHub-NahiyaNasir-181717?style=flat&logo=github)](https://github.com/NahiyaNasir/interview-question)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-f7df1e?style=flat&logo=javascript)](https://github.com/NahiyaNasir/interview-question)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178c6?style=flat&logo=typescript)](https://github.com/NahiyaNasir/interview-question)
 [![React](https://img.shields.io/badge/React-18+-61dafb?style=flat&logo=react)](https://github.com/NahiyaNasir/interview-question)
+[![Next.js](https://img.shields.io/badge/Next.js-14%2F15-000000?style=flat&logo=next.js)](https://github.com/NahiyaNasir/interview-question)
 [![Node.js](https://img.shields.io/badge/Node.js-Backend-339933?style=flat&logo=node.js)](https://github.com/NahiyaNasir/interview-question)
 [![Express](https://img.shields.io/badge/Express.js-Framework-000000?style=flat&logo=express)](https://github.com/NahiyaNasir/interview-question)
 [![Database](https://img.shields.io/badge/Database-SQL%20%26%20NoSQL-4479a1?style=flat&logo=postgresql)](https://github.com/NahiyaNasir/interview-question)
@@ -17,11 +19,13 @@
 |---|---|---|
 | 1 | [💬 Behavioral Interview Questions](#-behavioral-interview-questions) | Questions 1 – 5 |
 | 2 | [🟨 JavaScript Core, Functions & Modern JS](#-javascript-interview-questions) | Questions 1 – 30 |
-| 3 | [⚛️ React — Components, Hooks & State Management](#️-react-interview-questions) | Questions 31 – 60 |
-| 4 | [🟢 Node.js Architecture, I/O & Streams](#-nodejs-interview-questions--answers) | Node.js Questions 1 – 15 |
-| 5 | [🚂 Express.js Framework, Middleware & Security](#-expressjs-interview-questions) | Express.js Questions 1 – 15 |
-| 6 | [🗄️ Database, Distributed Systems & Indexing](#️-database--distributed-systems-interview-questions) | Questions 75 – 108 |
-| 7 | [⭐ Quick Revision Checklist & Mindset](#-quick-revision-checklist) | Checklist & Tips |
+| 3 | [🔷 TypeScript Fundamentals & Advanced Types](#-typescript-interview-questions--answers) | TypeScript Questions |
+| 4 | [⚛️ React — Components, Hooks & State Management](#️-react-interview-questions) | Questions 31 – 60 |
+| 5 | [▲ Next.js — App Router, SSR, SSG & Server Actions](#-nextjs-interview-questions--answers) | Next.js Questions 1 – 30 |
+| 6 | [🟢 Node.js Architecture, I/O & Streams](#-nodejs-interview-questions--answers) | Node.js Questions 1 – 15 |
+| 7 | [🚂 Express.js Framework, Middleware & Security](#-expressjs-interview-questions) | Express.js Questions 1 – 15 |
+| 8 | [🗄️ Database, Distributed Systems & Indexing](#️-database--distributed-systems-interview-questions) | Questions 75 – 108 |
+| 9 | [⭐ Quick Revision Checklist & Mindset](#-quick-revision-checklist) | Checklist & Tips |
 
 ---
 
@@ -183,7 +187,7 @@ let id = Symbol("id");    // Symbol
 | Operator | Name | Behavior | Example | Result |
 |---|---|---|---|---|
 | `==` | Loose Equality | Compares values after performing type coercion | `5 == "5"` | `true` |
-| `===` | Strict Equality | Compares both value **and** data type without coercion | `5 == "5"` | `false` |
+| `===` | Strict Equality | Compares both value **and** data type without coercion | `5 === "5"` | `false` |
 
 #### Example:
 ```javascript
@@ -801,82 +805,112 @@ console.log(memoizedSquare(5)); // Calculating... -> 25
 console.log(memoizedSquare(5)); // From cache: -> 25
 ```
 
-⭐ Quick Revision Checklist
-
-Before an interview, make sure you can explain these without reading the answers:
-
-var, let, const
-
-Hoisting and TDZ
-
-Primitive data types
-
-== vs ===
-
-Closures
-
-null vs undefined
-
-Arrow functions
-
-Scope chain
-
-Pure functions
-
-Function declarations vs expressions
-
-Default parameters
-
-typeof
-
-Type coercion
-
-IIFE
-
-Destructuring
-
-Spread and rest
-
-map(), filter(), reduce()
-
-for...in vs for...of
-
-Template literals
-
-Event loop
-
-Promises
-
-async/await
-
-call(), apply(), bind()
-
-Prototypal inheritance
-
-this
-
-Modules
-
-Shallow vs deep copy
-
-WeakMap and WeakSet
-
-Memoization
+---
 
 
-🎯 One rule I want you to remember
+## 🔷 TypeScript Interview Questions & Answers
 
-When you see a difficult JavaScript question, don't try to guess the answer immediately.
+---
 
-Do this:
+### Q1. What is the difference between `type` and `interface`?
 
-1. Is it synchronous or asynchronous?
-2. If asynchronous, is it a microtask or a task?
-3. If this appears, ask: how was the function called?
-4. If there is await, remember that everything after await is postponed.
-5. If objects are involved, ask: same reference or a copy?
+Both `type` and `interface` are used to define the structure of data in TypeScript.
 
-   ## ⚛️ React Interview Questions
+```typescript
+interface User {
+  name: string;
+  age: number;
+}
+
+type UserType = {
+  name: string;
+  age: number;
+};
+
+const user: User = {
+  name: "Rahim",
+  age: 25
+};
+```
+
+#### Main Differences:
+
+| Feature | `interface` | `type` |
+|---|---|---|
+| **Declaration Merging** | ✅ Yes (interfaces with same name auto-merge) | ❌ No (duplicate identifier error) |
+| **Extends / Inheritance** | `interface Admin extends User` | `type Admin = User & { role: string }` (intersection) |
+| **Unions & Primitives** | ❌ Cannot rename primitives or define unions directly | ✅ Can define unions (`type ID = string \| number`) |
+| **Best Used For** | Object shapes, public library APIs, class contracts | Unions, tuples, mapped types, primitives |
+
+```typescript
+// Declaration merging with interface:
+interface User {
+  name: string;
+}
+interface User {
+  age: number;
+}
+// User now has both 'name' and 'age'
+```
+
+> 💡 **Interview answer:** "I usually use `interface` for defining object shapes and contracts because of declaration merging and clear extensibility, and use `type` aliases when I need unions, intersections, primitives, tuples, or complex mapped types."
+
+---
+
+### Q2. Union vs Intersection Types
+
+#### Union (`|`) — OR
+A union type allows a value to be any one of several types.
+
+```typescript
+let id: string | number;
+
+id = "ABC"; // ✅ Valid
+id = 123;   // ✅ Valid
+```
+
+#### Intersection (`&`) — AND
+An intersection type combines multiple types into one. The resulting value must satisfy **all** combined types.
+
+```typescript
+type Employee = {
+  name: string;
+};
+
+type Manager = {
+  teamSize: number;
+};
+
+type ManagerEmployee = Employee & Manager;
+
+const person: ManagerEmployee = {
+  name: "Rahim",
+  teamSize: 10
+};
+```
+
+**Quick Summary:**
+* `|` = **OR** (can match any type)
+* `&` = **AND** (must contain all properties)
+
+---
+
+### Q3. What is Type Inference?
+
+Type inference means TypeScript automatically detects and assigns the type of a variable based on its initialized value, without needing explicit type annotations.
+
+```typescript
+let name = "Rahim"; // TypeScript infers type: string
+// name = 123;      // ❌ Error: Type 'number' is not assignable to type 'string'
+
+const age = 25;     // Inferred as literal type: 25
+let count = 0;      // Inferred as: number
+let isActive = true;// Inferred as: boolean
+```
+
+---
+
+## ⚛️ React Interview Questions
 
 ### Components, Hooks & State Management
 
@@ -1773,6 +1807,543 @@ Here are some extra questions an interviewer may ask after these topics:
 18. What is client-side routing?
 19. What are React portals?
 20. What happens when a component unmounts?
+
+## ▲ Next.js Interview Questions & Answers
+
+A collection of common **Next.js interview questions**, with simple answers, real-world examples, and follow-up questions.
+
+---
+
+### Q1. What is Next.js?
+
+Next.js is a production-ready React framework used to build modern full-stack web applications.
+
+It provides features out of the box:
+* **File-based routing** (App Router & Pages Router)
+* **Server Components & Client Components**
+* **Multiple rendering strategies:** SSR, SSG, ISR, Client-side
+* **API Route Handlers & Server Actions**
+* **Image, Font, and Script Optimization**
+* **Built-in SEO & Metadata support**
+* **Multi-level Caching & Edge Middleware**
+
+#### Real-world example:
+When building an e-commerce platform, Next.js handles:
+* Product catalog pages (statically generated / cached)
+* User account & checkout (server-side rendered / authenticated)
+* Search & interactive filters (client components)
+* Payment and cart actions (Server Actions / API routes)
+* SEO & OpenGraph tags for search engines and social previews
+
+#### Follow-up: Why use Next.js instead of plain React?
+React is a UI library focused on components and view rendering. Next.js is a full framework built around React that provides everything needed for a complete web application (routing, data fetching, server rendering, bundling, API endpoints, and production optimization).
+
+---
+
+### Q2. What is the difference between React and Next.js?
+
+| Feature | React | Next.js |
+|---|---|---|
+| **Type** | UI Library | Full-Stack Framework |
+| **Routing** | Requires external library (`react-router-dom`) | Built-in file-system based routing (`app/` or `pages/`) |
+| **Rendering** | Client-Side Rendering (CSR) by default | Server Components, SSR, SSG, ISR, CSR |
+| **SEO** | Harder for crawlers without pre-rendering | Excellent built-in SEO and server-rendered HTML |
+| **Backend / API** | Requires separate backend (Node/Express) | Built-in API routes (`route.js`) & Server Actions |
+| **Performance** | Downloads large JS bundle before UI renders | Automatic code-splitting, streaming, and image optimization |
+
+```text
+React:
+ ├── Components
+ ├── Hooks
+ └── Client UI
+
+Next.js:
+ ├── React
+ ├── File-based Routing
+ ├── React Server Components (RSC)
+ ├── SSR / SSG / ISR
+ ├── Server Actions & API Routes
+ └── Built-in SEO & Image Optimization
+```
+
+---
+
+### Q3. What is App Router?
+
+App Router is the modern routing system introduced in Next.js 13+, built around the `app/` directory and React Server Components.
+
+#### Directory Structure Example:
+```text
+app/
+├── layout.js       # Root layout shared by all pages
+├── page.js         # Homepage route (/)
+├── about/
+│   └── page.js     # Route: /about
+└── products/
+    ├── page.js     # Route: /products
+    └── [id]/
+        └── page.js # Dynamic route: /products/:id
+```
+
+#### Key features supported by App Router:
+* **Server Components by default**
+* **Nested layouts and templates**
+* **Special file conventions:** `loading.js`, `error.js`, `not-found.js`, `route.js`
+* **Server Actions** directly inside components
+* **Streaming with React Suspense**
+
+---
+
+### Q4. What is a Server Component?
+
+A **React Server Component (RSC)** executes and renders only on the server. Its code and dependencies never get sent to the browser.
+
+In Next.js App Router, **all components inside `app/` are Server Components by default**.
+
+#### Example:
+```jsx
+export default async function ProductsPage() {
+  // Directly fetch data on the server without useEffect!
+  const response = await fetch("https://api.example.com/products");
+  const products = await response.json();
+
+  return (
+    <div>
+      <h1>Product Catalog</h1>
+      {products.map((product) => (
+        <p key={product.id}>{product.name} - ${product.price}</p>
+      ))}
+    </div>
+  );
+}
+```
+
+#### Benefits:
+* **Zero Client-Side JavaScript:** Reduces bundle size significantly.
+* **Direct Backend Access:** Can query databases directly without exposing connection strings.
+* **SEO Friendly:** Pre-renders complete HTML for search engines.
+
+---
+
+### Q5. What is a Client Component?
+
+A Client Component is rendered on the client browser and has access to browser APIs, user events, and React client hooks (`useState`, `useEffect`).
+
+You define a Client Component by adding the **`"use client"`** directive at the top of the file.
+
+#### Example:
+```jsx
+"use client";
+
+import { useState } from "react";
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Count: {count}
+    </button>
+  );
+}
+```
+
+#### Best Practice Pattern:
+Keep pages as Server Components, and push Client Components down to the smallest interactive leaves (e.g., an `AddToCartButton`).
+
+---
+
+### Q6. What is `"use client"`?
+
+`"use client"` is a directive that marks the boundary between the server-only component graph and the client component graph.
+
+* Must be placed at the very top of the file, before any imports.
+* It tells Next.js to package this component and its child imports into the client JavaScript bundle.
+* Use it only when you need: `useState`, `useEffect`, browser APIs (`localStorage`, `window`), or event handlers (`onClick`, `onChange`).
+
+---
+
+### Q7. What is Server-Side Rendering (SSR)?
+
+**Server-Side Rendering (SSR)** generates the HTML dynamically on the server for **every incoming user request**.
+
+```text
+User requests page ──> Server fetches latest data ──> Generates HTML ──> Browser displays HTML
+```
+
+#### When to use SSR:
+* Personalized user dashboards
+* Pages showing real-time live stock/pricing data
+* Pages dependent on incoming request headers or user authentication cookies
+
+---
+
+### Q8. What is SSG (Static Site Generation)?
+
+**Static Site Generation (SSG)** generates the HTML pages at build time. The same pre-rendered HTML is stored on a CDN and served instantly to all users.
+
+#### When to use SSG:
+* Marketing pages, landing pages
+* Blogs, portfolio sites
+* Documentation websites
+* Content that rarely changes
+
+---
+
+### Q9. What is ISR (Incremental Static Regeneration)?
+
+**ISR** allows you to update static pages in the background after the site is deployed, without rebuilding the whole website.
+
+```jsx
+// Revalidate this page at most once every 60 seconds
+const response = await fetch("https://api.example.com/products", {
+  next: { revalidate: 60 }
+});
+```
+
+#### Comparison: SSR vs SSG vs ISR
+
+| Strategy | When is HTML generated? | Best Use Case | Performance |
+|---|---|---|---|
+| **SSG** | Build time | Documentation, landing pages | ⚡ Fastest (served from CDN) |
+| **SSR** | Every request | User dashboards, dynamic auth pages | Dependent on server/database latency |
+| **ISR** | Build time + periodically in background | E-commerce product catalogs, blog lists | ⚡ Fast with automatic freshness |
+
+---
+
+### Q10. What is Dynamic Routing?
+
+Dynamic routes allow capturing variable parameters in URLs by using square brackets `[param]` in folder names.
+
+#### Example:
+```text
+app/products/[id]/page.js  ==>  matches /products/10, /products/25
+```
+
+```jsx
+export default async function ProductPage({ params }) {
+  const { id } = await params;
+  return <h1>Product Details for ID: {id}</h1>;
+}
+```
+
+---
+
+### Q11. What is `layout.js`?
+
+A layout is UI that is **shared between multiple pages**. On navigation, layouts preserve state, remain interactive, and do not re-render.
+
+```text
+app/
+├── layout.js       # Root layout with <html> and <body>
+├── page.js
+└── dashboard/
+    ├── layout.js   # Dashboard sidebar/navigation layout
+    └── page.js
+```
+
+---
+
+### Q12. What is Middleware in Next.js?
+
+Next.js Middleware runs **before a request is completed**, allowing you to modify requests and responses based on incoming URL, headers, and cookies.
+
+```javascript
+// middleware.js (in project root or src/)
+import { NextResponse } from 'next/server';
+
+export function middleware(request) {
+  const token = request.cookies.get('token');
+
+  if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  return NextResponse.next();
+}
+```
+
+#### Common use cases:
+* Authentication and role-based route protection
+* Bot detection and rate limiting
+* Internationalization / localization redirects
+* Adding security headers
+
+---
+
+### Q13. How do you protect a route in Next.js?
+
+1. **Middleware Check:** Check for auth cookies or JWT tokens and redirect unauthenticated users before rendering.
+2. **Server-Side Validation:** Check session directly in Server Components or layout before serving sensitive data.
+3. **API & Server Action Protection:** Always verify the caller's session on every server-side mutation.
+
+---
+
+### Q14. What is Authentication vs Authorization?
+
+* **Authentication (AuthN):** "Who are you?" (verifying email/password, OAuth provider).
+* **Authorization (AuthZ):** "What are you allowed to do?" (checking if user has `role === 'admin'` to delete a record).
+
+---
+
+### Q15. How do you create an API route in Next.js App Router?
+
+Create a **`route.js`** file inside the `app/api/` directory exporting standard HTTP methods (`GET`, `POST`, `PUT`, `DELETE`, `PATCH`).
+
+```javascript
+// app/api/users/route.js
+export async function GET(request) {
+  const users = [{ id: 1, name: "Nahiya" }];
+  return Response.json(users, { status: 200 });
+}
+
+export async function POST(request) {
+  const body = await request.json();
+  // save user to DB
+  return Response.json({ success: true, user: body }, { status: 201 });
+}
+```
+
+---
+
+### Q16. What are Server Actions?
+
+**Server Actions** are asynchronous functions that are executed on the server. They can be invoked directly from forms and buttons in both Server and Client Components.
+
+```jsx
+// Server Action definition
+async function createPost(formData) {
+  'use server';
+  const title = formData.get('title');
+  await db.post.create({ data: { title } });
+}
+
+export default function NewPostForm() {
+  return (
+    <form action={createPost}>
+      <input name="title" placeholder="Title" required />
+      <button type="submit">Create Post</button>
+    </form>
+  );
+}
+```
+
+#### Benefits:
+* Eliminates boilerplate API endpoints for mutations.
+* Progressive enhancement: works even before client JavaScript loads.
+
+---
+
+### Q17. How do you fetch data in Next.js App Router?
+
+Directly in Server Components using native `fetch`, OR via direct database ORM calls (Prisma, Drizzle, Mongoose):
+
+```jsx
+export default async function UserList() {
+  const users = await db.user.findMany(); // Direct database query!
+  return (
+    <ul>
+      {users.map(u => <li key={u.id}>{u.name}</li>)}
+    </ul>
+  );
+}
+```
+
+---
+
+### Q18. What is Caching in Next.js?
+
+Next.js employs a comprehensive caching architecture:
+1. **Request Memoization:** De-duplicates identical `fetch` requests within the same render pass.
+2. **Data Cache:** Persists `fetch` responses across incoming requests and deployments.
+3. **Full Route Cache:** Stores static HTML and RSC payloads on the server.
+4. **Router Cache:** Client-side cache that stores visited route segments in browser memory.
+
+---
+
+### Q19. What is the `<Image />` component in Next.js?
+
+The `next/image` component extends the HTML `<img>` element with automatic optimization:
+* **Modern formats:** Serves WebP and AVIF automatically.
+* **Responsive sizing:** Automatically generates responsive `srcset`.
+* **Zero layout shift:** Prevents Cumulative Layout Shift (CLS).
+* **Lazy loading:** Defers offscreen image loading until in viewport.
+
+```jsx
+import Image from "next/image";
+
+<Image
+  src="/profile.png"
+  width={300}
+  height={300}
+  alt="Profile picture"
+  priority // loads immediately if above the fold
+/>
+```
+
+---
+
+### Q20. How do you handle SEO in Next.js?
+
+Next.js provides a built-in Metadata API to define page titles, descriptions, OpenGraph, and Twitter cards:
+
+```jsx
+// Static metadata
+export const metadata = {
+  title: "Products | My Store",
+  description: "Browse our exclusive product catalog"
+};
+
+// Dynamic metadata
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const product = await getProduct(id);
+  return {
+    title: product.name,
+    description: product.description,
+    openGraph: { images: [product.imageUrl] }
+  };
+}
+```
+
+---
+
+### Q21. What are Environment Variables in Next.js?
+
+Next.js has built-in support for `.env.local`:
+* **Server-Only (Secret):** Without prefix, accessible only in Server Components / API routes (`process.env.DATABASE_URL`).
+* **Browser-Accessible (Public):** Must be prefixed with `NEXT_PUBLIC_` (`process.env.NEXT_PUBLIC_STRIPE_KEY`).
+
+---
+
+### Q22. What is Hydration?
+
+Hydration is the process where React in the browser attaches event listeners and state management to the pre-rendered static HTML sent by the server.
+
+#### Hydration Errors:
+Occurs when the client-rendered output differs from the server-rendered HTML (e.g., displaying `new Date().toLocaleTimeString()` or `window.innerWidth` directly).
+
+---
+
+### Q23. How do you handle loading states in Next.js?
+
+Create a **`loading.js`** file in the route folder. Next.js automatically wraps the page in a React `<Suspense>` boundary:
+
+```jsx
+// app/dashboard/loading.js
+export default function Loading() {
+  return <div className="skeleton-loader">Loading dashboard...</div>;
+}
+```
+
+---
+
+### Q24. How do you handle errors in Next.js?
+
+Create an **`error.js`** file in the route segment. It must be a **Client Component**:
+
+```jsx
+// app/products/error.js
+'use client';
+
+export default function Error({ error, reset }) {
+  return (
+    <div>
+      <h2>Something went wrong!</h2>
+      <p>{error.message}</p>
+      <button onClick={() => reset()}>Try again</button>
+    </div>
+  );
+}
+```
+
+For 404 pages, use **`not-found.js`** and invoke the `notFound()` function from `next/navigation`.
+
+---
+
+### Q25. How do you optimize Next.js performance?
+
+1. Use **Server Components** for non-interactive pages to minimize client JS bundle.
+2. Use **`next/image`** for all raster graphics and **`next/font`** to eliminate layout shifts.
+3. Apply **Dynamic Imports (`next/dynamic`)** for heavy libraries (charts, rich text editors).
+4. Utilize **Route Handlers and ISR/revalidation** instead of re-fetching on every request.
+5. Analyze bundles using `@next/bundle-analyzer`.
+
+---
+
+### Q26. What is Dynamic Import (`next/dynamic`)?
+
+Dynamic import enables code-splitting by loading components lazily only when needed.
+
+```jsx
+import dynamic from 'next/dynamic';
+
+const HeavyChart = dynamic(() => import('@/components/HeavyChart'), {
+  ssr: false, // disable server-side rendering for browser-only canvas
+  loading: () => <p>Loading chart...</p>
+});
+```
+
+---
+
+### Q27. How would you implement authentication in a Next.js project?
+
+1. **Credentials verification:** Verify login email/password via a Server Action or Route Handler.
+2. **Session creation:** Issue a cryptographic JWT or session token stored in an `httpOnly`, `secure`, `SameSite=Lax` cookie.
+3. **Route protection:** Middleware inspects the cookie and redirects unauthenticated requests.
+4. **Server Component validation:** Secure layouts extract and verify the user session.
+5. **Popular libraries:** NextAuth.js (Auth.js), Lucia Auth, or Clerk.
+
+---
+
+### Q28. How do you handle a 404 page?
+
+```jsx
+// app/not-found.js
+import Link from 'next/link';
+
+export default function NotFound() {
+  return (
+    <div>
+      <h2>Page Not Found</h2>
+      <p>Could not find the requested resource.</p>
+      <Link href="/">Return Home</Link>
+    </div>
+  );
+}
+```
+
+---
+
+### Q29. How would you structure a large Next.js project?
+
+```text
+my-app/
+├── app/                  # App Router: routes, layouts, pages, loading, error
+│   ├── (auth)/           # Route groups (clean URLs without path prefix)
+│   │   ├── login/page.js
+│   │   └── register/page.js
+│   ├── dashboard/page.js
+│   ├── api/              # API Route handlers
+│   ├── layout.js
+│   └── page.js
+├── components/           # Reusable UI components
+│   ├── ui/               # Buttons, Inputs, Dialogs (shadcn/radix)
+│   └── forms/            # Complex forms
+├── lib/                  # Utilities, DB clients, auth helpers
+├── hooks/                # Custom React client hooks
+├── services/             # Backend business logic & API services
+├── types/                # TypeScript definitions
+└── middleware.js         # Edge middleware
+```
+
+---
+
+### Q30. Why choose Next.js for a production project?
+
+> "I choose Next.js because it provides a complete, modern full-stack architecture with production optimizations built-in: React Server Components to keep client bundles tiny, flexible rendering (SSR, SSG, ISR), built-in file-based routing and Edge middleware, Server Actions for simple type-safe data mutations, and automatic image/font/SEO optimization."
+
+---
 
 ## 🟢 Node.js Interview Questions & Answers
 
