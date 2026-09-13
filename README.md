@@ -1,29 +1,31 @@
+# 🧠 Full-Stack Web Developer Interview Questions (108 Questions)
 
-JavaScript & Web Developer Interview Questions
+> A complete, beautifully organized collection of 108 full-stack web development interview questions and answers — curated for quick revision before technical interviews.
 
-A clean, GitHub-ready collection of full-stack web development and JavaScript interview questions and answers.
+[![GitHub](https://img.shields.io/badge/GitHub-NahiyaNasir-181717?style=flat&logo=github)](https://github.com/NahiyaNasir/interview-question)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-f7df1e?style=flat&logo=javascript)](https://github.com/NahiyaNasir/interview-question)
+[![React](https://img.shields.io/badge/React-18+-61dafb?style=flat&logo=react)](https://github.com/NahiyaNasir/interview-question)
+[![Node.js](https://img.shields.io/badge/Node.js-Backend-339933?style=flat&logo=node.js)](https://github.com/NahiyaNasir/interview-question)
+[![Express](https://img.shields.io/badge/Express.js-Framework-000000?style=flat&logo=express)](https://github.com/NahiyaNasir/interview-question)
+[![Database](https://img.shields.io/badge/Database-SQL%20%26%20NoSQL-4479a1?style=flat&logo=postgresql)](https://github.com/NahiyaNasir/interview-question)
 
-Use this README as a quick revision guide before technical interviews.
+---
 
-📚 Table of Contents
+## 📚 Complete Table of Contents
 
-Behavioral Interview Questions
+| # | Section | Questions Covered |
+|---|---|---|
+| 1 | [💬 Behavioral Interview Questions](#-behavioral-interview-questions) | Questions 1 – 5 |
+| 2 | [🟨 JavaScript Core, Functions & Modern JS](#-javascript-interview-questions) | Questions 1 – 30 |
+| 3 | [⚛️ React — Components, Hooks & State Management](#️-react-interview-questions) | Questions 31 – 60 |
+| 4 | [🟢 Node.js Architecture, I/O & Streams](#-nodejs-interview-questions--answers) | Node.js Questions 1 – 15 |
+| 5 | [🚂 Express.js Framework, Middleware & Security](#-expressjs-interview-questions) | Express.js Questions 1 – 15 |
+| 6 | [🗄️ Database, Distributed Systems & Indexing](#️-database--distributed-systems-interview-questions) | Questions 75 – 108 |
+| 7 | [⭐ Quick Revision Checklist & Mindset](#-quick-revision-checklist) | Checklist & Tips |
 
-JavaScript Interview Questions
+---
 
-Variables & Hoisting
-
-Core JavaScript
-
-Functions & Scope
-
-Modern JavaScript
-
-Asynchronous JavaScript
-
-Objects & Advanced Concepts
-
-💬 Behavioral Interview Questions
+## 💬 Behavioral Interview Questions
 
 1. Tell Me About Yourself
 
@@ -55,7 +57,7 @@ Honestly, it comes down to instant feedback and impact.
 
 With web development, you write a few lines of code, refresh the browser, and suddenly there’s a real interactive tool on your screen that anyone in the world can use. That feeling never gets old for me. I love that the web is constantly evolving—there’s always a new framework to try, a faster way to query a database, or a better way to design an interface. It keeps work interesting every single day.
 
-🟨 JavaScript Interview Questions
+## 🟨 JavaScript Interview Questions
 
 Variables & Hoisting
 
@@ -879,8 +881,9 @@ Do this:
 4. If there is await, remember that everything after await is postponed.
 5. If objects are involved, ask: same reference or a copy?
 
-   REACT QUES
-# Components, Hooks & State Management
+   ## ⚛️ React Interview Questions
+
+### Components, Hooks & State Management
 
 ## Q31. What is React and what problem does it solve?
 
@@ -1220,7 +1223,7 @@ const User = React.memo(function User({ name }) {
 React will skip rendering the component if its props are the same as before.
 
 `React.memo` can improve performance, but it should not be used everywhere. It is mainly useful when a component renders often and its props usually stay the same.
-# React Interview Questions — Q46 to Q60
+### React Advanced Hooks & Routing (Q46 to Q60)
 
 ## Q46. What is the useReducer hook and when is it preferred over useState?
 
@@ -1776,7 +1779,7 @@ Here are some extra questions an interviewer may ask after these topics:
 19. What are React portals?
 20. What happens when a component unmounts?
 
-# Node.js Interview Questions & Answers
+## 🟢 Node.js Interview Questions & Answers
 
 Simple English + real-world examples for interviews.
 
@@ -2623,7 +2626,7 @@ For example, a GitHub Actions workflow might use:
 | `npm install`        | Resolves and installs dependencies           |
 
 ---
-# Express.js Interview Questions
+## 🚂 Express.js Interview Questions
 
 Simple English answers with real-world examples for Express.js interviews.
 
@@ -3701,7 +3704,7 @@ A session allows the server to remember a user's login state.
 **Stateful vs Stateless?**
 
 Stateful authentication stores session information on the server, while stateless authentication verifies information such as a token without keeping that login session in server memory.
-# Database & Distributed Systems Interview Questions
+## 🗄️ Database & Distributed Systems Interview Questions
 
 ## Transaction Isolation & Locking
 
