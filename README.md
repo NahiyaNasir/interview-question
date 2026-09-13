@@ -3701,6 +3701,598 @@ A session allows the server to remember a user's login state.
 **Stateful vs Stateless?**
 
 Stateful authentication stores session information on the server, while stateless authentication verifies information such as a token without keeping that login session in server memory.
+# Database & Distributed Systems Interview Questions
+
+## Transaction Isolation & Locking
+
+### Q75. What are transaction isolation levels?
+
+Transaction isolation levels define how much one transaction is isolated from other transactions running at the same time.
+
+Common levels are:
+
+* Read Uncommitted
+* Read Committed
+* Repeatable Read
+* Serializable
+
+---
+
+### Q76. What is Read Uncommitted?
+
+Read Uncommitted allows a transaction to read data that another transaction has **not committed yet**.
+
+* Lowest isolation level
+* Can cause dirty reads
+* Provides better performance but less consistency
+
+---
+
+### Q77. What is Read Committed?
+
+Read Committed allows a transaction to read only **committed data**.
+
+* Prevents dirty reads
+* Can still have non-repeatable reads
+* Common default isolation level in many databases
+
+---
+
+### Q78. What is Repeatable Read?
+
+Repeatable Read ensures that once a transaction reads a row, reading the same row again during the transaction returns the **same value**.
+
+* Prevents dirty reads
+* Prevents non-repeatable reads
+* Phantom-read behavior can depend on the database implementation
+
+---
+
+### Q79. What is Serializable isolation?
+
+Serializable is the **highest standard isolation level**.
+
+It makes concurrent transactions behave as if they were executed **one after another**.
+
+* Prevents dirty reads
+* Prevents non-repeatable reads
+* Prevents phantom reads
+* Provides strong consistency but can reduce performance
+
+---
+
+### Q80. What are dirty reads, non-repeatable reads, and phantom reads?
+
+**Dirty Read:**
+Reading data written by another transaction before that transaction commits.
+
+**Non-Repeatable Read:**
+Reading the same row twice and getting different values because another transaction changed it.
+
+**Phantom Read:**
+Running the same query twice and getting a different set of rows because another transaction inserted or deleted matching rows.
+
+---
+
+### Q81. What is optimistic locking?
+
+Optimistic locking assumes that **conflicts are rare**.
+
+The application checks whether the data has changed before updating it, usually using a **version number**.
+
+Example:
+
+```text
+Read record → version = 5
+
+Update record only if version = 5
+
+If version changed → update fails
+```
+
+---
+
+### Q82. What is pessimistic locking?
+
+Pessimistic locking assumes that **conflicts are likely**.
+
+The database locks the data before modifying it so that other transactions cannot modify it at the same time.
+
+Example:
+
+```sql
+SELECT * FROM users
+WHERE id = 10
+FOR UPDATE;
+```
+
+---
+
+### Q83. What is the difference between optimistic and pessimistic locking?
+
+| Optimistic Locking            | Pessimistic Locking            |
+| ----------------------------- | ------------------------------ |
+| Assumes conflicts are rare    | Assumes conflicts are common   |
+| Does not lock immediately     | Locks the data                 |
+| Usually uses version numbers  | Uses database locks            |
+| Better concurrency            | Can cause waiting/blocking     |
+| Good for low-conflict systems | Good for high-conflict systems |
+
+---
+
+# Distributed Systems & Data Architecture
+
+### Q84. What is the CAP theorem?
+
+CAP theorem says that a distributed system cannot guarantee **Consistency, Availability, and Partition Tolerance simultaneously during a network partition**.
+
+During a partition, the system must choose between:
+
+* Consistency
+* Availability
+
+---
+
+### Q85. What are Consistency, Availability, and Partition Tolerance?
+
+**Consistency:**
+Every node sees the same/latest data.
+
+**Availability:**
+Every request receives a response, even if some nodes fail.
+
+**Partition Tolerance:**
+The system continues working even when network communication between nodes fails.
+
+---
+
+### Q86. What is the difference between CP and AP systems?
+
+**CP — Consistency + Partition Tolerance**
+
+The system prioritizes correct, consistent data. During a network partition, it may reject or delay some requests.
+
+**AP — Availability + Partition Tolerance**
+
+The system continues accepting requests during a partition, but different nodes may temporarily have different data.
+
+```text
+CP → Consistency + Partition Tolerance
+
+AP → Availability + Partition Tolerance
+```
+
+---
+
+### Q87. What is the PACELC theorem?
+
+PACELC extends CAP.
+
+It says:
+
+```text
+If Partition:
+    Choose Availability or Consistency
+
+Else:
+    Choose Latency or Consistency
+```
+
+So PACELC considers both **network failures** and **normal operation**.
+
+---
+
+### Q88. How does PACELC extend the CAP theorem?
+
+CAP mainly explains the trade-off between **Consistency and Availability during a network partition**.
+
+PACELC adds another trade-off:
+
+**During normal operation, should the system prioritize lower Latency or stronger Consistency?**
+
+---
+
+### Q89. What happens when an asynchronous read replica lags behind the primary node?
+
+The read replica may contain **old or stale data**.
+
+Example:
+
+```text
+Primary:
+User balance = $100
+
+Replica:
+User balance = $80
+```
+
+If the application reads from the replica before replication catches up, it may see `$80`.
+
+---
+
+### Q90. How can replication lag and read-your-own-writes consistency be handled?
+
+Common solutions include:
+
+* Read important data from the **primary**
+* Use **sticky sessions**
+* Wait for the replica to catch up
+* Track replication position/LSN
+* Use synchronous replication when strong consistency is required
+
+Example:
+
+```text
+User writes data
+       ↓
+Read from Primary
+       ↓
+Always sees latest write
+```
+
+---
+
+# Deep-Dive Indexing Mechanics
+
+### Q91. What is a B-Tree?
+
+A B-Tree is a **balanced tree data structure** commonly used for database indexes.
+
+It makes searching, inserting, deleting, and range queries efficient.
+
+Example:
+
+```text
+        [50]
+       /    \
+ [10,20]   [60,70]
+```
+
+---
+
+### Q92. What is an LSM-Tree?
+
+LSM stands for **Log-Structured Merge-Tree**.
+
+It is a data structure designed for efficient writes.
+
+Data is first written to memory and later flushed and merged into sorted files on disk.
+
+It is commonly used in **write-heavy systems**.
+
+---
+
+### Q93. What is the difference between a B-Tree and an LSM-Tree?
+
+| B-Tree                          | LSM-Tree                      |
+| ------------------------------- | ----------------------------- |
+| Updates data in place           | Writes data and merges later  |
+| Good read performance           | Excellent write performance   |
+| Common in traditional databases | Common in write-heavy systems |
+| Less compaction                 | Requires compaction           |
+| Good for range queries          | Also supports range queries   |
+
+---
+
+### Q94. What is a covering index?
+
+A covering index is an index that contains **all the columns required by a query**.
+
+Example:
+
+```sql
+CREATE INDEX idx_users
+ON users(id, name, email);
+```
+
+Query:
+
+```sql
+SELECT name, email
+FROM users
+WHERE id = 10;
+```
+
+The index contains everything the query needs, so the database may not need to access the main table.
+
+---
+
+### Q95. What is an index-only scan?
+
+An index-only scan happens when the database can answer a query **using only the index**, without reading the table/heap.
+
+Example:
+
+```text
+Query
+  ↓
+Index
+  ↓
+Result
+```
+
+Instead of:
+
+```text
+Query
+  ↓
+Index
+  ↓
+Table/Heap
+  ↓
+Result
+```
+
+---
+
+### Q96. When can a query be satisfied entirely from an index without accessing the table/heap?
+
+A query can be satisfied entirely from an index when the index contains **all the data required by the query**.
+
+For example:
+
+```sql
+CREATE INDEX idx_users
+ON users(id, name, email);
+```
+
+Query:
+
+```sql
+SELECT name, email
+FROM users
+WHERE id = 10;
+```
+
+The database can potentially get `name` and `email` directly from the index.
+
+---
+
+# Connection Management & Caching
+
+### Q97. What is connection pooling?
+
+Connection pooling means maintaining a **pool of reusable database connections**.
+
+Instead of creating a new connection for every request, the application reuses existing connections.
+
+```text
+Request
+   ↓
+Connection Pool
+   ↓
+Database
+```
+
+---
+
+### Q98. Why do databases fail under sudden traffic spikes without connection pooling?
+
+Without connection pooling, every request may create a new database connection.
+
+During a traffic spike:
+
+```text
+Thousands of requests
+        ↓
+Thousands of connections
+        ↓
+Database connection limit reached
+        ↓
+Slowdown / errors
+```
+
+Connection pooling limits the number of active connections and reuses them.
+
+---
+
+### Q99. What are caching strategies?
+
+Caching strategies define **how an application reads and writes cached data**.
+
+Common strategies include:
+
+* Cache-aside
+* Write-through
+* Write-behind
+* Read-through
+
+---
+
+### Q100. What is cache-aside (lazy loading)?
+
+The application first checks the cache.
+
+If the data is not found, it reads from the database and then stores the result in the cache.
+
+```text
+Request
+   ↓
+Cache
+   ↓ miss
+Database
+   ↓
+Cache
+   ↓
+Response
+```
+
+This is one of the most commonly used caching strategies.
+
+---
+
+### Q101. What is write-through caching?
+
+With write-through caching, data is written to the **cache and database together**.
+
+```text
+Application
+     ↓
+   Cache
+     ↓
+ Database
+```
+
+It provides better consistency but can make writes slower.
+
+---
+
+### Q102. What is write-behind caching?
+
+With write-behind caching, data is first written to the **cache**.
+
+The cache writes the data to the database later, usually asynchronously.
+
+```text
+Application
+     ↓
+   Cache
+     ↓
+Database later
+```
+
+It provides fast writes but introduces a risk of data loss if the cache fails before the database is updated.
+
+---
+
+### Q103. What are cache stampede/thundering herd, cache penetration, and cache breakdown?
+
+**Cache Stampede / Thundering Herd:**
+Many requests try to load the same data from the database when a popular cache entry expires.
+
+**Cache Penetration:**
+Requests repeatedly ask for data that does not exist, causing repeated database queries.
+
+**Cache Breakdown:**
+A very popular cache entry expires and many requests suddenly access the database at the same time.
+
+Common solutions include:
+
+* TTL with jitter
+* Distributed locks
+* Request coalescing
+* Caching negative results
+* Cache warming
+
+---
+
+# Production Node.js & ORM Nuances
+
+### Q104. What is the N+1 query problem?
+
+The N+1 problem happens when the application executes **1 query to get a list and then N additional queries for each item**.
+
+Example:
+
+```text
+1 query → Get 100 users
+
+100 queries → Get orders for each user
+
+Total = 101 queries
+```
+
+This can cause serious performance problems.
+
+---
+
+### Q105. How can the N+1 query problem be solved?
+
+Common solutions include:
+
+* Use JOINs
+* Use eager loading
+* Use batch queries
+* Use `IN` queries
+* Use DataLoader/batching
+
+Instead of:
+
+```text
+101 queries
+```
+
+try to fetch the data using:
+
+```text
+1–few queries
+```
+
+---
+
+### Q106. What are database migrations in zero-downtime deployments?
+
+Database migrations are controlled changes to the database schema.
+
+In zero-downtime deployments, migrations should allow **old and new application versions to work at the same time**.
+
+Example:
+
+```text
+Old App ──┐
+          ├── Database
+New App ──┘
+```
+
+The application should continue working while the database changes are applied.
+
+---
+
+### Q107. What is the expand-and-contract pattern?
+
+Expand-and-contract is a safe way to change a database schema without breaking running applications.
+
+### Step 1: Expand
+
+Add the new column/table while keeping the old one.
+
+### Step 2: Migrate
+
+Update the application and migrate the data.
+
+### Step 3: Contract
+
+After all old application versions are gone, remove the old column/table.
+
+```text
+Expand → Migrate → Contract
+```
+
+---
+
+### Q108. Why should you avoid renaming or dropping a column in a single migration while older application instances are still running?
+
+Because older application instances may still use that column.
+
+Example:
+
+```text
+Old Application
+      ↓
+Reads "name" column
+
+Migration
+      ↓
+Drops "name" column
+
+Old Application
+      ↓
+ERROR
+```
+
+Instead, use the **expand-and-contract pattern**.
+
+```text
+Add new column
+      ↓
+Update application
+      ↓
+Migrate data
+      ↓
+Remove old column
+```
+
+This allows old and new application versions to run safely during deployment.
 
 
 # Interview Tip
